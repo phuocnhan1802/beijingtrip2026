@@ -32,6 +32,7 @@
   --d21:#9CA3AF; --d22:#EF5A4F; --d23:#4FB585; --d24:#5B9BE6; --d25:#D69A55; --d26:#B07BD3; --d27:#F27C3E; --d28:#2CB5A8;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
 body.dnd{user-select:none;cursor:grabbing}
@@ -271,6 +272,24 @@ a{color:var(--red)}
 .cand .cn small{color:var(--muted);font-size:12px}
 .cand .zh{color:var(--red);font-size:14px;font-weight:600;flex:none}
 .recog-note{font-size:12px;color:var(--muted);margin-top:6px}
+.browse{border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden}
+.bhead{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px;border-bottom:1px solid var(--line);background:var(--surface2)}
+.bhead input[type=search]{flex:1 1 220px;min-width:0;font:inherit;font-size:14px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:7px 10px}
+.bhead .seg button{padding:4px 10px;font-size:12.5px}
+.near{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.blist{max-height:340px;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:6px}
+.bitem{display:flex;align-items:flex-start;gap:10px;text-align:left;width:100%;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 10px;cursor:pointer}
+.bitem:hover,.bitem.sel{border-color:var(--red);box-shadow:0 0 0 2px color-mix(in srgb,var(--red) 18%,transparent)}
+.bitem .tag{flex:none;margin-top:2px;font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 6px;background:var(--surface2);color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.bitem .tag.sight{background:color-mix(in srgb,var(--red) 14%,transparent);color:var(--red)}
+.bitem .tag.food{background:color-mix(in srgb,var(--gold) 20%,transparent);color:var(--gold)}
+.bitem .cn{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.bitem .cn b{font-size:13.5px}
+.bitem .cn b .zh{color:var(--red);font-weight:600;margin-left:4px}
+.bitem .cn small{color:var(--muted);font-size:12px;line-height:1.4}
+.bitem .meta2{color:var(--ink)!important;font-weight:600}
+.bitem .meta2 em{font-style:normal;color:var(--ok)}
+.bfoot{font-size:11.5px;color:var(--muted);padding:6px 12px 8px;border-top:1px solid var(--line)}
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .fld{display:flex;flex-direction:column;gap:4px;min-width:0}
 .fld.w2{grid-column:span 2}
@@ -395,10 +414,24 @@ footer{max-width:1440px;margin:0 auto;padding:0 28px 40px;color:var(--muted);fon
     <div class="dlg-b">
       <div class="pastebox">
         <div class="lbl"><b>Dán & nhận diện địa điểm <span class="zh">· 汉字</span></b>
-          <span style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn" type="button" id="readClip">Dán từ clipboard</button><button class="btn" type="button" id="pasteStopBtn" hidden>Dán hoạt động đã sao chép</button></span></div>
+          <span style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn primary" type="button" id="browseBtn" aria-expanded="false"></button><button class="btn" type="button" id="readClip">Dán từ clipboard</button><button class="btn" type="button" id="pasteStopBtn" hidden>Dán hoạt động đã sao chép</button></span></div>
         <textarea id="pasteBox" rows="2" placeholder="Dán tên chữ Hán, tin chia sẻ Amap/Dianping, hoặc gõ tên. VD: 故宫, 南锣鼓巷, 【高德地图】四季民福烤鸭店, Summer Palace"></textarea>
         <div class="cands" id="cands"></div>
         <div class="recog-note" id="recogNote"></div>
+      </div>
+      <div class="browse" id="browse" hidden>
+        <div class="bhead">
+          <input type="search" id="bSearch" placeholder="Tìm trong danh sách (Việt / 中文 / English)">
+          <div class="seg" id="bSeg">
+            <button type="button" data-bc="all" aria-pressed="true">Tất cả</button>
+            <button type="button" data-bc="sight" aria-pressed="false">Tham quan</button>
+            <button type="button" data-bc="food" aria-pressed="false">Ăn uống</button>
+            <button type="button" data-bc="other" aria-pressed="false">Đi lại & KS</button>
+          </div>
+          <label class="near"><input type="checkbox" id="bNear" checked> Xếp theo gần khách sạn của ngày đã chọn</label>
+        </div>
+        <div class="blist" id="blist"></div>
+        <div class="bfoot" id="bfoot"></div>
       </div>
       <div class="grid">
         <div class="fld w2"><label for="fDay">Ngày</label><select id="fDay"></select></div>
@@ -464,41 +497,54 @@ const photoPage = k => /^https?:\/\//.test(k||'') ? k : PHOTOS[k] ? 'https://com
 
 /* ---------- DICTIONARY: địa điểm Bắc Kinh để nhận diện chữ Hán (ngoài lịch trình) ---------- */
 const EXTRA = [
-  ['X_TAM','Quảng trường Thiên An Môn','Thiên An Môn','天安门广场','天安门 天安门广场 Tiananmen','Tiananmen Square',39.9031,116.3976,'sight'],
-  ['X_BH','Công viên Bắc Hải','Bắc Hải','北海公园','北海 北海公园 Beihai','Beihai Park',39.9254,116.3893,'sight'],
-  ['X_GL','Gác Trống · Gác Chuông','Gác Trống','鼓楼','鼓楼 钟楼 钟鼓楼 Drum Tower Bell Tower','Drum Tower Beijing',39.9406,116.3935,'sight'],
-  ['X_YD','Phố Yandai Xiejie','Yandai Xiejie','烟袋斜街','烟袋斜街 Yandai','Yandai Xiejie',39.9398,116.3909,'sight'],
-  ['X_GWF','Cung Vương phủ','Cung Vương phủ','恭王府','恭王府 Prince Gong','Prince Gong Mansion',39.9372,116.3860,'sight'],
-  ['X_GZJ','Quốc Tử Giám · Khổng Miếu','Quốc Tử Giám','国子监','国子监 孔庙 Guozijian Confucius','Guozijian Imperial College Beijing',39.9468,116.4106,'sight'],
-  ['X_YMY','Viên Minh Viên','Viên Minh Viên','圆明园','圆明园 Yuanmingyuan Old Summer Palace','Old Summer Palace Yuanmingyuan',40.0080,116.2980,'sight'],
-  ['X_PKU','Đại học Bắc Kinh','ĐH Bắc Kinh','北京大学','北京大学 北大 Peking University','Peking University',39.9925,116.3050,'sight'],
-  ['X_THU','Đại học Thanh Hoa','ĐH Thanh Hoa','清华大学','清华大学 清华 Tsinghua','Tsinghua University',40.0000,116.3264,'sight'],
-  ['X_WC','Khối Nước (Water Cube)','Khối Nước','水立方','水立方 国家游泳中心 冰立方 Water Cube','Water Cube Beijing',39.9930,116.3887,'sight'],
-  ['X_BDL','Vạn Lý Trường Thành Bát Đạt Lĩnh','Bát Đạt Lĩnh','八达岭长城','八达岭 八达岭长城 Badaling','Badaling Great Wall',40.3597,116.0200,'sight'],
-  ['X_MSL','Thập Tam Lăng nhà Minh','Thập Tam Lăng','明十三陵','十三陵 明十三陵 Ming Tombs','Ming Tombs Beijing',40.2540,116.2210,'sight'],
-  ['X_SLT','Tam Lý Đồn','Tam Lý Đồn','三里屯','三里屯 太古里 Sanlitun','Sanlitun Taikoo Li',39.9370,116.4540,'sight'],
-  ['X_GM','Quốc Mậu (CBD)','Quốc Mậu','国贸','国贸 国贸商城 CBD Guomao','China World Mall Beijing',39.9087,116.4590,'sight'],
-  ['X_SMT','The Place (Thế Mậu Thiên Giai)','The Place','世贸天阶','世贸天阶 The Place','The Place Beijing',39.9170,116.4510,'sight'],
-  ['X_MSG','Bảo tàng Mỹ thuật Trung Quốc','BT Mỹ thuật','中国美术馆','美术馆 中国美术馆 NAMOC','National Art Museum of China',39.9235,116.4085,'sight'],
-  ['X_SDB','Bảo tàng Thủ đô','BT Thủ đô','首都博物馆','首都博物馆 Capital Museum','Capital Museum Beijing',39.9055,116.3420,'sight'],
-  ['X_XS','Công viên Hương Sơn','Hương Sơn','香山公园','香山 香山公园 Fragrant Hills','Fragrant Hills Park',39.9930,116.1880,'sight'],
-  ['X_UNI','Universal Studios Bắc Kinh','Universal Studios','北京环球影城','环球影城 环球度假区 Universal','Universal Beijing Resort',39.8560,116.6800,'sight'],
-  ['X_CYP','Công viên Triều Dương','CV Triều Dương','朝阳公园','朝阳公园 Chaoyang Park','Chaoyang Park Beijing',39.9420,116.4770,'sight'],
-  ['X_TS','Thiên Đàn · cửa Đông','Thiên Đàn cửa Đông','天坛东门','天坛东门','Tiantan East Gate',39.8826,116.4210,'sight'],
-  ['X_NSS','Khu trượt tuyết Nam Sơn (Mật Vân)','Trượt tuyết Nam Sơn','南山滑雪场','南山滑雪场 南山滑雪 滑雪 Nanshan ski','Nanshan Ski Resort Beijing',40.3260,116.8670,'sight'],
-  ['X_QB','Sân trượt tuyết trong nhà Qiaobo','Trượt tuyết Qiaobo','乔波室内滑雪馆','乔波 乔波滑雪 室内滑雪 Qiaobo','Qiaobo Indoor Ski Beijing',40.1100,116.6440,'sight'],
-  ['X_GJ','Phố ẩm thực Quỷ Nhai (Guijie)','Quỷ Nhai','簋街','簋街 Guijie Ghost Street','Guijie Ghost Street Beijing',39.9405,116.4230,'food'],
-  ['X_SJMF','Vịt quay Siji Minfu (gần Cố Cung)','Siji Minfu','四季民福烤鸭店','四季民福 四季民福烤鸭 四季民福烤鸭店 Siji Minfu','Siji Minfu Roast Duck Forbidden City',39.9160,116.4040,'food'],
-  ['X_DD','Vịt quay Da Dong','Da Dong','大董烤鸭','大董 大董烤鸭 Da Dong','Da Dong Roast Duck Beijing',39.9330,116.4340,'food'],
-  ['X_BYF','Vịt quay Bianyifang (Tiền Môn)','Bianyifang','便宜坊','便宜坊 Bianyifang','Bianyifang Roast Duck Qianmen',39.8960,116.3990,'food'],
-  ['X_HGS','Ăn vặt Huguosi','Huguosi','护国寺小吃','护国寺 护国寺小吃 Huguosi','Huguosi Snacks Beijing',39.9400,116.3750,'food'],
-  ['X_YJ','Yaoji Chaogan (gan xào)','Yaoji Chaogan','姚记炒肝店','姚记 姚记炒肝 Yaoji','Yaoji Chaogan Beijing',39.9405,116.3950,'food'],
-  ['X_PEK','Sân bay Thủ đô Bắc Kinh (PEK)','Sân bay PEK','北京首都国际机场','首都机场 首都国际机场 北京首都国际机场 PEK Capital Airport','Beijing Capital International Airport',40.0799,116.6031,'airport'],
-  ['X_BJS','Ga Bắc Kinh Nam','Ga Bắc Kinh Nam','北京南站','北京南站 Beijing South','Beijing South Railway Station',39.8650,116.3790,'airport'],
-  ['X_BJW','Ga Bắc Kinh Tây','Ga Bắc Kinh Tây','北京西站','北京西站 Beijing West','Beijing West Railway Station',39.8950,116.3220,'airport'],
-  ['X_BJ','Ga Bắc Kinh','Ga Bắc Kinh','北京站','北京站 Beijing Railway Station','Beijing Railway Station',39.9030,116.4270,'airport']
-].map(([id,name,short,zh,alias,q,lat,lng,kind])=>({id,name,short,zh,alias,q,lat,lng,kind}));
-const ALIAS = {FC:'故宫 紫禁城 故宫博物院 Forbidden City Gugong',TT:'天坛 天坛公园 Temple of Heaven Tiantan',SP:'颐和园 Summer Palace Yiheyuan',MTY:'慕田峪 慕田峪长城 长城 Great Wall Mutianyu',JS:'景山 景山公园 Jingshan Coal Hill',HH:'后海 Houhai',SCH:'什刹海 前海 Shichahai',YH:'雍和宫 Lama Temple Yonghegong',NLG:'南锣鼓巷 Nanluoguxiang',OP:'奥林匹克公园 鸟巢 国家体育场 奥林匹克森林公园 Birds Nest Olympic',NM:'国家博物馆 中国国家博物馆 国博 National Museum',WFJ:'王府井 王府井大街 Wangfujing',QM:'前门 前门大街 正阳门 Qianmen',DSL:'大栅栏 Dashilan Dashilar',A798:'798 798艺术区 798 Art',PKX:'大兴机场 大兴国际机场 北京大兴国际机场 Daxing PKX',QJD:'全聚德 Quanjude',DLS:'东来顺 Donglaishun',QF:'庆丰包子铺 庆丰 Qingfeng',HDL:'海底捞 Haidilao',MRS:'宝钞胡同 Mr Shi',KBBQ:'豆满江 Doumanjiang',WJ:'花家怡园 Hua Jia Yi Yuan',H1:'如家 如家精选 团结湖 Home Inn Tuanjiehu',H2:'阜通 望京SOHO Wei Hotel Fan Futong',HR:'虹鳟鱼 怀柔 Huairou trout',XL:'祥龙 Xianglong'};
+  /* id, tên, tên ngắn, chữ Hán, alias, query Google, lat, lng, loại, mô tả */
+  ['X_TAM','Quảng trường Thiên An Môn','Thiên An Môn','天安门广场','天安门 天安门广场 升旗 Tiananmen','Tiananmen Square',39.9031,116.3976,'sight','Quảng trường lớn nhất TQ, sát Bảo tàng QG. Phải đặt chỗ trước 1-7 ngày qua WeChat, lễ thượng cờ đặt riêng'],
+  ['X_WJSOHO','Wangjing SOHO (Zaha Hadid)','Wangjing SOHO','望京SOHO','望京SOHO 望京soho Wangjing SOHO','Wangjing SOHO Beijing',39.9962,116.4772,'sight','3 tòa tháp cong của Zaha Hadid ngay cạnh KS 2. Quảng trường miễn phí, đẹp nhất khi lên đèn'],
+  ['X_CCTV','Tòa nhà CCTV','Tòa CCTV','中央电视台总部大楼','央视大楼 中央电视台 大裤衩 CCTV','CCTV Headquarters Beijing',39.9149,116.4635,'sight','Công trình "quần đùi" nổi tiếng của Rem Koolhaas, chỉ chụp ảnh bên ngoài'],
+  ['X_BH','Công viên Bắc Hải','Bắc Hải','北海公园','北海 北海公园 白塔 Beihai','Beihai Park',39.9254,116.3893,'sight','Vườn hoàng gia có Tháp Trắng và hồ lớn, cạnh Cảnh Sơn'],
+  ['X_GL','Gác Trống · Gác Chuông','Gác Trống','鼓楼','鼓楼 钟楼 钟鼓楼 Drum Tower Bell Tower','Drum Tower Beijing',39.9406,116.3935,'sight','Hai tháp cổ cuối trục trung tâm, nằm giữa Nam La Cổ Hạng và Thập Sát Hải'],
+  ['X_YD','Phố Yandai Xiejie','Yandai Xiejie','烟袋斜街','烟袋斜街 Yandai','Yandai Xiejie',39.9398,116.3909,'sight','Con phố nhỏ nhiều quán nối Gác Trống với Thập Sát Hải'],
+  ['X_GWF','Cung Vương phủ','Cung Vương phủ','恭王府','恭王府 Prince Gong','Prince Gong Mansion',39.9372,116.3860,'sight','Phủ đệ quý tộc nhà Thanh, gần Thập Sát Hải. Nên đặt vé trước'],
+  ['X_GZJ','Quốc Tử Giám · Khổng Miếu','Quốc Tử Giám','国子监','国子监 孔庙 Guozijian Confucius','Guozijian Imperial College Beijing',39.9468,116.4106,'sight','Trường học hoàng gia và Khổng Miếu, đi bộ vài phút từ Ung Hòa Cung'],
+  ['X_DT','Công viên Địa Đàn','Địa Đàn','地坛公园','地坛 地坛公园 Ditan','Ditan Park Beijing',39.9520,116.4170,'sight','Đàn tế Đất, có hàng ngân hạnh đẹp mùa thu, ngay phía bắc Ung Hòa Cung'],
+  ['X_DYT','Đại lộ ngân hạnh Điếu Ngư Đài','Ngân hạnh Điếu Ngư Đài','钓鱼台银杏大道','钓鱼台 银杏大道 钓鱼台银杏 ginkgo','Diaoyutai Ginkgo Avenue',39.9190,116.3110,'sight','Hàng ngân hạnh nổi tiếng nhất, lá vàng đẹp nhất khoảng đầu-giữa tháng 11'],
+  ['X_LLC','Phố Lưu Ly Xưởng','Lưu Ly Xưởng','琉璃厂','琉璃厂 文化街 Liulichang','Liulichang Culture Street',39.8950,116.3880,'sight','Phố đồ cổ, bút lông, thư pháp, đi bộ từ Đại Sách Lan'],
+  ['X_LS','Lão Xá Trà quán','Lão Xá Trà quán','老舍茶馆','老舍茶馆 Lao She Teahouse','Lao She Teahouse Qianmen',39.8990,116.3960,'sight','Trà quán xem kinh kịch, tạp kỹ buổi tối, ngay Tiền Môn. Nên đặt chỗ'],
+  ['X_HQ','Chợ Hồng Kiều','Chợ Hồng Kiều','红桥市场','红桥 红桥市场 珍珠市场 Hongqiao Pearl Market','Hongqiao Pearl Market Beijing',39.8930,116.4110,'sight','Chợ ngọc trai, đồ lưu niệm, đối diện cửa Đông Thiên Đàn'],
+  ['X_ZOO','Vườn thú Bắc Kinh (gấu trúc)','Vườn thú BK','北京动物园','动物园 北京动物园 熊猫 Beijing Zoo panda','Beijing Zoo',39.9420,116.3380,'sight','Có khu gấu trúc, đi được nửa buổi'],
+  ['X_YMY','Viên Minh Viên','Viên Minh Viên','圆明园','圆明园 Yuanmingyuan Old Summer Palace','Old Summer Palace Yuanmingyuan',40.0080,116.2980,'sight','Tàn tích cung điện kiểu châu Âu, gần Di Hòa Viên, ghép chung 1 ngày được'],
+  ['X_PKU','Đại học Bắc Kinh','ĐH Bắc Kinh','北京大学','北京大学 北大 Peking University','Peking University',39.9925,116.3050,'sight','Cần đặt lịch tham quan trước, số lượng khách hạn chế'],
+  ['X_THU','Đại học Thanh Hoa','ĐH Thanh Hoa','清华大学','清华大学 清华 Tsinghua','Tsinghua University',40.0000,116.3264,'sight','Cần đặt lịch tham quan trước, số lượng khách hạn chế'],
+  ['X_WC','Khối Nước (Water Cube)','Khối Nước','水立方','水立方 国家游泳中心 冰立方 Water Cube','Water Cube Beijing',39.9930,116.3887,'sight','Ngay cạnh Tổ Chim, lên đèn buổi tối rất đẹp'],
+  ['X_BDL','Vạn Lý Trường Thành Bát Đạt Lĩnh','Bát Đạt Lĩnh','八达岭长城','八达岭 八达岭长城 Badaling','Badaling Great Wall',40.3597,116.0200,'sight','Đoạn Trường Thành nổi tiếng nhất, thường rất đông. Có tàu cao tốc từ ga Thanh Hà'],
+  ['X_MSL','Thập Tam Lăng nhà Minh','Thập Tam Lăng','明十三陵','十三陵 明十三陵 Ming Tombs','Ming Tombs Beijing',40.2540,116.2210,'sight','Lăng mộ 13 vua nhà Minh, hay ghép chung với Trường Thành'],
+  ['X_SLT','Tam Lý Đồn · Taikoo Li','Tam Lý Đồn','三里屯','三里屯 太古里 Sanlitun','Sanlitun Taikoo Li',39.9370,116.4540,'sight','Khu mua sắm, cà phê, bar sầm uất, đi dạo buổi tối'],
+  ['X_GM','Quốc Mậu (CBD)','Quốc Mậu','国贸','国贸 国贸商城 CBD Guomao','China World Mall Beijing',39.9087,116.4590,'sight','Khu CBD, tháp CITIC, có đài quan sát ngắm đêm'],
+  ['X_SMT','The Place (Thế Mậu Thiên Giai)','The Place','世贸天阶','世贸天阶 The Place','The Place Beijing',39.9170,116.4510,'sight','Màn hình LED khổng lồ trên trần, chụp ảnh buổi tối'],
+  ['X_MSG','Bảo tàng Mỹ thuật Trung Quốc','BT Mỹ thuật','中国美术馆','美术馆 中国美术馆 NAMOC','National Art Museum of China',39.9235,116.4085,'sight','Gần Vương Phủ Tỉnh, miễn phí nhưng cần đặt trước'],
+  ['X_SDB','Bảo tàng Thủ đô','BT Thủ đô','首都博物馆','首都博物馆 Capital Museum','Capital Museum Beijing',39.9055,116.3420,'sight','Bảo tàng lịch sử Bắc Kinh, ít đông hơn Bảo tàng QG'],
+  ['X_XS','Công viên Hương Sơn','Hương Sơn','香山公园','香山 香山公园 Fragrant Hills','Fragrant Hills Park',39.9930,116.1880,'sight','Núi lá đỏ ngoại ô tây bắc, cuối tháng 11 lá thường đã rụng'],
+  ['X_UNI','Universal Studios Bắc Kinh','Universal Studios','北京环球影城','环球影城 环球度假区 Universal','Universal Beijing Resort',39.8560,116.6800,'sight','Công viên giải trí, cần trọn 1 ngày'],
+  ['X_CYP','Công viên Triều Dương','CV Triều Dương','朝阳公园','朝阳公园 Chaoyang Park','Chaoyang Park Beijing',39.9420,116.4770,'sight','Công viên lớn gần KS 1, đi dạo buổi sáng'],
+  ['X_YQ','Khu trượt tuyết Olympic Diên Khánh "Tuyết Phi Yến"','Trượt tuyết Diên Khánh','国家高山滑雪中心','国家高山滑雪中心 雪飞燕 延庆奥林匹克园区 延庆 小海坨 高山滑雪 Yanqing Alpine Olympic ski','National Alpine Skiing Centre Yanqing',40.5400,115.8000,'sight','Đường trượt Olympic 2022, có khu học cho người mới. Dự kiến mở giữa-cuối tháng 11, cách trung tâm ~1h30-2h','Mùa 2026-27: báo chí ngày 07/11/2026 cho biết dự kiến mở cửa giữa-cuối tháng 11 và mở các đường trượt khu đỉnh trước. Cần kiểm tra lại ngay trước ngày đi.\nGiờ mở: khoảng 09:00-17:00.\nTrình độ: 13 đường trượt chuyên nghiệp dành cho người trung-cao cấp. Người mới chơi ở khu trải nghiệm / khu học (~6.000 m², có thảm chuyền) trước Làng Olympic.\nGiá tham khảo mùa 2024-25: gói 4 tiếng khu trải nghiệm kèm thiết bị 158 tệ ngày thường / 208 tệ cuối tuần; vé cả ngày không kèm thiết bị từ 328 tệ. Giá mùa này có thể khác.\nĐặt vé: tìm 国家高山滑雪中心 trên WeChat, hoặc Trip.com / Qunar.\nĐi lại: cách Vọng Kinh khoảng 90-100 km, xe thuê hoặc DiDi ~1h30-2h. Mùa 2024-25 có xe buýt chuyên tuyến từ Quốc Mậu (国贸) và Lưu Gia Diêu (刘家窑), cần kiểm tra lịch mùa này.\nMang theo: áo khoác chắn gió, găng, kính, mũ. Trên núi lạnh và gió hơn nội thành nhiều.\nĐịa chỉ: 北京市延庆区张山营镇西大庄科村 (延庆奥林匹克园区)','Xe thuê / DiDi ~1h30-2h'],
+  ['X_NSS','Khu trượt tuyết Nam Sơn (Mật Vân)','Trượt tuyết Nam Sơn','南山滑雪场','南山滑雪场 南山滑雪 滑雪 Nanshan ski','Nanshan Ski Resort Beijing',40.3260,116.8670,'sight','Khu trượt tuyết ngoài trời, cách trung tâm ~1h30 xe. Thường mở mùa từ cuối tháng 11'],
+  ['X_QB','Sân trượt tuyết trong nhà Qiaobo','Trượt tuyết Qiaobo','乔波室内滑雪馆','乔波 乔波滑雪 室内滑雪 Qiaobo','Qiaobo Indoor Ski Beijing',40.1100,116.6440,'sight','Trượt tuyết trong nhà, mở quanh năm, gần sân bay PEK'],
+  ['X_GJ','Phố ẩm thực Quỷ Nhai (Guijie)','Quỷ Nhai','簋街','簋街 胡大 Guijie Ghost Street','Guijie Ghost Street Beijing',39.9405,116.4230,'food','Phố ăn đêm, nổi tiếng tôm hùm đất cay (Hu Da), gần Ung Hòa Cung'],
+  ['X_SJMF','Vịt quay Siji Minfu (gần Cố Cung)','Siji Minfu','四季民福烤鸭店','四季民福 四季民福烤鸭 四季民福烤鸭店 Siji Minfu','Siji Minfu Roast Duck Forbidden City',39.9160,116.4040,'food','Vịt quay được người địa phương chuộng, cửa sổ nhìn ra tường Cố Cung. Thường xếp hàng'],
+  ['X_DD','Vịt quay Da Dong','Da Dong','大董烤鸭','大董 大董烤鸭 Da Dong','Da Dong Roast Duck Beijing',39.9330,116.4340,'food','Vịt quay cao cấp, trình bày đẹp, giá cao hơn'],
+  ['X_BYF','Vịt quay Bianyifang (Tiền Môn)','Bianyifang','便宜坊','便宜坊 Bianyifang','Bianyifang Roast Duck Qianmen',39.8960,116.3990,'food','Vịt quay lò kín lâu đời, ngay phố Tiền Môn'],
+  ['X_JBY','Lẩu đồng Jubaoyuan (Ngưu Nhai)','Jubaoyuan','聚宝源','聚宝源 牛街 涮肉 Jubaoyuan Niujie','Jubaoyuan Niujie Beijing',39.8850,116.3640,'food','Lẩu đồng nhúng thịt cừu nổi tiếng ở phố Hồi Ngưu Nhai, thường xếp hàng'],
+  ['X_JDX','Dim sum Jin Ding Xuan (24h)','Jin Ding Xuan','金鼎轩','金鼎轩 Jin Ding Xuan','Jin Ding Xuan Yonghegong',39.9470,116.4180,'food','Dim sum mở 24h, ngay cạnh Ung Hòa Cung'],
+  ['X_WY','Wenyu Nailao (pudding sữa)','Wenyu Nailao','文宇奶酪店','文宇奶酪 奶酪 Wenyu','Wenyu Cheese Shop Nanluoguxiang',39.9365,116.4032,'food','Pudding sữa kiểu Bắc Kinh nổi tiếng ở Nam La Cổ Hạng'],
+  ['X_HGS','Ăn vặt Huguosi','Huguosi','护国寺小吃','护国寺 护国寺小吃 Huguosi','Huguosi Snacks Beijing',39.9400,116.3750,'food','Quán ăn vặt truyền thống Bắc Kinh, giá rẻ, gần Thập Sát Hải'],
+  ['X_YJ','Yaoji Chaogan (gan xào)','Yaoji Chaogan','姚记炒肝店','姚记 姚记炒肝 Yaoji','Yaoji Chaogan Beijing',39.9405,116.3950,'food','Quán bình dân gần Gác Trống, món gan xào và bánh bao'],
+  ['X_PEK','Sân bay Thủ đô Bắc Kinh (PEK)','Sân bay PEK','北京首都国际机场','首都机场 首都国际机场 北京首都国际机场 PEK Capital Airport','Beijing Capital International Airport',40.0799,116.6031,'airport','Sân bay quốc tế phía đông bắc, gần 798 hơn Đại Hưng'],
+  ['X_BJS','Ga Bắc Kinh Nam','Ga Bắc Kinh Nam','北京南站','北京南站 Beijing South','Beijing South Railway Station',39.8650,116.3790,'airport','Ga tàu cao tốc đi Thượng Hải, Thiên Tân'],
+  ['X_BJW','Ga Bắc Kinh Tây','Ga Bắc Kinh Tây','北京西站','北京西站 Beijing West','Beijing West Railway Station',39.8950,116.3220,'airport','Ga tàu đi Tây An và phía nam'],
+  ['X_BJ','Ga Bắc Kinh','Ga Bắc Kinh','北京站','北京站 Beijing Railway Station','Beijing Railway Station',39.9030,116.4270,'airport','Ga tàu trung tâm']
+].map(([id,name,short,zh,alias,q,lat,lng,kind,desc,note,via])=>({id,name,short,zh,alias,q,lat,lng,kind,desc,note,via}));
+const DESC = {FC:'Cung điện hoàng gia lớn nhất thế giới. Đặt vé trước, đóng cửa thứ Hai',JS:'Đồi ngay sau Cố Cung, lên đỉnh ngắm toàn cảnh mái vàng',HH:'Hồ phía bắc, nhiều bar và quán ăn ven hồ buổi tối',MTY:'Đoạn Trường Thành ít đông hơn Bát Đạt Lĩnh, có cáp treo và máng trượt',HR:'Quán cá hồi vân quanh khu Mutianyu',KBBQ:'BBQ Hàn Quốc ở Giao Đạo Khẩu',QF:'Chuỗi bánh bao bình dân lâu đời',TT:'Đàn tế trời của vua, đặt vé combo qua WeChat',XL:'Quán gần cửa Đông Thiên Đàn',QM:'Phố đi bộ cổ ngay nam quảng trường Thiên An Môn',DSL:'Phố buôn bán lâu đời, nhiều cửa hàng trăm năm',DLS:'Lẩu đồng nhúng thịt cừu kiểu Bắc Kinh',SP:'Vườn hoàng gia, di sản UNESCO, Hồ Côn Minh',NM:'Miễn phí, đặt trước theo tên thật, mang passport',WFJ:'Phố mua sắm sầm uất trung tâm',OP:'Tổ Chim và Khối Nước, khu Olympic 2008',WJ:'Nhà hàng món Bắc Kinh ở Vọng Kinh',YH:'Chùa Tây Tạng lớn nhất Bắc Kinh, vé 25-30 tệ',MRS:'Quán sủi cảo nổi tiếng với khách nước ngoài',NLG:'Hẻm hutong cổ nhiều cửa hàng, quán cà phê',SCH:'Cụm hồ Tiền Hải - Hậu Hải - Tây Hải',HDL:'Lẩu Haidilao, phục vụ chu đáo, mở khuya',A798:'Khu nghệ thuật trong nhà máy cũ',QJD:'Thương hiệu vịt quay lâu đời nhất',PKX:'Sân bay mới phía nam, nối trung tâm bằng Airport Express',H1:'Khách sạn đêm 22-24/11',H2:'Khách sạn đêm 25-27/11'};
+const ALIAS = {FC:'故宫 紫禁城 故宫博物院 Forbidden City Gugong',TT:'天坛 天坛公园 Temple of Heaven Tiantan',SP:'颐和园 Summer Palace Yiheyuan',MTY:'慕田峪 慕田峪长城 长城 Great Wall Mutianyu',JS:'景山 景山公园 Jingshan Coal Hill',HH:'后海 Houhai',SCH:'什刹海 前海 Shichahai',YH:'雍和宫 Lama Temple Yonghegong',NLG:'南锣鼓巷 Nanluoguxiang',OP:'奥林匹克公园 鸟巢 国家体育场 奥林匹克森林公园 Birds Nest Olympic',NM:'国家博物馆 中国国家博物馆 国博 National Museum',WFJ:'王府井 王府井大街 Wangfujing',QM:'前门 前门大街 正阳门 Qianmen',DSL:'大栅栏 Dashilan Dashilar',A798:'798 798艺术区 798 Art',PKX:'大兴机场 大兴国际机场 北京大兴国际机场 Daxing PKX',QJD:'全聚德 Quanjude',DLS:'东来顺 Donglaishun',QF:'庆丰包子铺 庆丰 Qingfeng',HDL:'海底捞 Haidilao',MRS:'宝钞胡同 Mr Shi',KBBQ:'豆满江 Doumanjiang',WJ:'花家怡园 Hua Jia Yi Yuan',H1:'如家 如家精选 团结湖 Home Inn Tuanjiehu',H2:'阜通 Wei Hotel Fan Futong',HR:'虹鳟鱼 怀柔 Huairou trout',XL:'祥龙 Xianglong'};
 
 /* ---------- STATE ---------- */
 const RAW_TEXT = document.getElementById('trip-data').textContent;
@@ -1023,6 +1069,7 @@ function openEditor(opts, pasted){
   F('dlgTitle').textContent = opts.mode === 'edit' ? 'Sửa hoạt động' : 'Thêm hoạt động';
   F('delBtn').hidden = F('dupBtn').hidden = opts.mode !== 'edit';
   F('pasteStopBtn').hidden = !clip || opts.mode === 'edit';
+  F('browse').hidden = true; F('bSearch').value = ''; bCat = 'all'; F('bSeg').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x.dataset.bc==='all')); setBrowseBtn(false);
   F('editOv').classList.add('on'); F('editOv').classList.remove('min');
   document.body.style.overflow = 'hidden';
   if (pasted) { F('pasteBox').value = pasted; runRecog(true); }
@@ -1049,7 +1096,7 @@ function runRecog(autoApply){
 }
 function renderCands(items){
   F('cands').innerHTML = items.map((it,k)=> it.type==='place'
-    ? `<button type="button" class="cand" data-k="${k}"><span class="tag ${it.c.p.kind}">${({sight:'Tham quan',food:'Ăn uống',hotel:'Khách sạn',airport:'Sân bay/Ga'})[it.c.p.kind]||'Địa điểm'}</span><span class="cn"><b>${esc(it.c.p.name)}</b><small>${it.c.p.src==='data'?(placeUsed(it.c.p.id)?'Đã có trong lịch trình':'Địa điểm có sẵn'):'Từ điển Bắc Kinh'}</small></span><span class="zh">${esc(String(it.c.p.zh).split(' ')[0])}</span></button>`
+    ? `<button type="button" class="cand" data-k="${k}"><span class="tag ${it.c.p.kind}">${TAGL[it.c.p.kind]||'Địa điểm'}</span><span class="cn"><b>${esc(it.c.p.name)}</b><small>${it.c.p.src==='data'?(placeUsed(it.c.p.id)?'Đã có trong lịch trình':'Địa điểm có sẵn'):'Từ điển Bắc Kinh'}</small></span><span class="zh">${esc(String(it.c.p.zh).split(' ')[0])}</span></button>`
     : `<button type="button" class="cand" data-k="${k}"><span class="tag new">Mới</span><span class="cn"><b>Tạo địa điểm mới: <span class="zh">${esc(it.name)}</span></b><small>${it.addr?esc(it.addr)+' · ':''}Loại đoán: ${CAT[guessCat(it.name+it.addr)].label} · ghim trên bản đồ sau</small></span></button>`).join('');
   F('cands')._items = items;
 }
@@ -1060,10 +1107,11 @@ F('cands').addEventListener('click', e => {
   if (it.type==='place') applyPlace(it.c.p, +b.dataset.k); else applyNew(it.name, it.addr, +b.dataset.k);
 });
 function markSel(k){ document.querySelectorAll('.cand').forEach((c,i)=>c.classList.toggle('sel', i===k)); }
+function swapAuto(id, val){ const el = F(id); if (!el.value || el.value === draft.auto[id]) { el.value = val; draft.auto[id] = val; } }
 function setAuto(id, val){ const el = F(id); if (!el.value || el.value === draft.auto[id]) { el.value = val; draft.auto[id] = val; } }
 function applyPlace(p, k){
   draft.loc = p.id; draft.extra = p.src === 'dict' ? p : null; draft.newPlace = null;
-  setAuto('fName', p.name); setAuto('fZh', String(p.zh).split(' ')[0]);
+  setAuto('fName', p.name); setAuto('fZh', String(p.zh).split(' ')[0]); swapAuto('fDesc', pDesc(p)); swapAuto('fNote', p.note || ''); swapAuto('fVia', p.via || '');
   const cat = p.kind==='food'?'food':p.kind==='hotel'?'hotel':p.kind==='airport'?'move':'sight';
   if (F('fCat').value === draft.auto.fCat || !draft.auto.fCatTouched) { F('fCat').value = cat; draft.auto.fCat = cat; }
   markSel(k ?? 0); updateLocBox(); drawMap();
@@ -1105,7 +1153,7 @@ function saveDraft(){
   if (draft.rawTime && !st && !en) t = draft.rawTime;
   pushUndo();
   let loc = draft.loc;
-  if (draft.extra) { const {src, id, ...p} = draft.extra; PLACES[id] = p; loc = id; }
+  if (draft.extra) { const {src, id, _km, note, via, ...p} = draft.extra; PLACES[id] = p; loc = id; }
   if (draft.newPlace) {
     loc = 'C' + Date.now().toString(36);
     PLACES[loc] = {name, short: name.length > 22 ? name.slice(0,21)+'…' : name, zh: zh || '', q: zh || (name + ' Beijing'), lat:+draft.newPlace.lat.toFixed(5), lng:+draft.newPlace.lng.toFixed(5), kind: kindFromCat(cat)};
@@ -1147,6 +1195,54 @@ F('dupBtn').onclick = () => {
   const c = {...stopPayload(s), id:nid()}; d.stops.splice(d.stops.indexOf(s)+1, 0, c);
   activeStop = c.id; renderAll(); flashStop(c.id); toast(`Đã nhân bản "${s.name}"`, 'Hoàn tác', undo);
 };
+
+
+/* ---------- BROWSE LIST ---------- */
+const TAGL = {sight:'Tham quan',food:'Ăn uống',hotel:'Khách sạn',airport:'Sân bay/Ga',other:'Khác'};
+let bCat = 'all';
+const PIN_ICON = '<path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/>';
+function setBrowseBtn(open){ F('browseBtn').innerHTML = ico(PIN_ICON) + (open ? 'Đóng danh sách' : 'Danh sách địa điểm Bắc Kinh'); F('browseBtn').setAttribute('aria-expanded', open); }
+function hotelFor(dayId){ const d = DAYS.find(x=>x.id===dayId); if (!d) return null; return PLACES[d.stay] ? d.stay : (PLACES[d.start] && PLACES[d.start].kind==='hotel' ? d.start : null); }
+const kmBetween = (a,b) => { const [x1,y1]=proj(a),[x2,y2]=proj(b); return Math.hypot(x1-x2,y1-y2); };
+const fmtKm = k => k < 1 ? (Math.max(1,Math.round(k*20))*50) + ' m' : (k < 10 ? k.toFixed(1).replace('.',',') : Math.round(k)) + ' km';
+const pDesc = p => p.desc || DESC[p.id] || '';
+function renderBrowse(){
+  const q = norm(F('bSearch').value.trim());
+  const hk = hotelFor(F('fDay').value); const h = hk ? PLACES[hk] : null;
+  let list = placePool().filter(p => bCat==='all' ? true : bCat==='other' ? !['sight','food'].includes(p.kind) : p.kind===bCat);
+  if (q) list = list.filter(p => norm([p.name,p.short,p.zh,p.alias,p.q,pDesc(p)].join(' ')).includes(q));
+  list.forEach(p => { p._km = h && p.id !== hk ? kmBetween(p,h) : null; });
+  if (F('bNear').checked && h) list.sort((a,b)=>(a._km??-1)-(b._km??-1));
+  else list.sort((a,b)=>(a.src==='data'?0:1)-(b.src==='data'?0:1) || a.name.localeCompare(b.name,'vi'));
+  const daysOf = id => [...new Set(allStops().filter(s=>s.loc===id).map(s=>DAYS.find(d=>d.id===s.day).date))];
+  F('blist').innerHTML = list.length ? list.map((p,i)=>{
+    const used = daysOf(p.id);
+    const meta = [p._km!=null ? `cách ${esc(h.short||h.name)} ~${fmtKm(p._km)}` : (p.id===hk ? 'khách sạn của ngày này' : ''), used.length ? `<em>đã có trong lịch ${used.join(', ')}</em>` : ''].filter(Boolean).join(' · ');
+    return `<button type="button" class="bitem ${draft && draft.loc===p.id ? 'sel':''}" data-i="${i}"><span class="tag ${p.kind}">${TAGL[p.kind]||'Khác'}</span><span class="cn"><b>${esc(p.name)}<span class="zh">${esc(String(p.zh).split(' ')[0])}</span></b>${pDesc(p)?`<small>${esc(pDesc(p))}</small>`:''}${meta?`<small class="meta2">${meta}</small>`:''}${p.note?'<small class="meta2"><em>Có ghi chú chi tiết (giờ mở, giá, đi lại), tự điền khi chọn</em></small>':''}</span></button>`;
+  }).join('') : '<div class="recog-note" style="padding:6px">Không tìm thấy. Thử gõ chữ Hán hoặc tên tiếng Anh, hoặc dán vào ô phía trên để tạo địa điểm mới.</div>';
+  F('blist')._list = list;
+  const d = DAYS.find(x=>x.id===F('fDay').value);
+  F('bfoot').textContent = `${list.length} địa điểm` + (h && F('bNear').checked ? ` · xếp theo khoảng cách đường chim bay tới ${h.short||h.name} (${d.date})` : '');
+}
+function toggleBrowse(force){
+  const open = force ?? F('browse').hidden;
+  F('browse').hidden = !open; setBrowseBtn(open);
+  if (open) { renderBrowse(); F('blist').scrollTop = 0; setTimeout(()=>F('bSearch').focus({preventScroll:true}), 30); F('browse').scrollIntoView({block:'nearest', behavior:'smooth'}); }
+}
+F('browseBtn').onclick = () => toggleBrowse();
+F('bSearch').addEventListener('input', renderBrowse);
+F('bNear').addEventListener('change', renderBrowse);
+F('fDay').addEventListener('change', () => { if (!F('browse').hidden) renderBrowse(); });
+F('bSeg').addEventListener('click', e => { const b = e.target.closest('[data-bc]'); if (!b) return; bCat = b.dataset.bc; F('bSeg').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x===b)); renderBrowse(); });
+F('blist').addEventListener('click', e => {
+  const b = e.target.closest('.bitem'); if (!b) return;
+  const p = F('blist')._list[+b.dataset.i];
+  applyPlace(p, -1);
+  toggleBrowse(false);
+  F('recogNote').textContent = `Đã chọn "${p.name}" từ danh sách. Kiểm tra lại giờ và nhấn Lưu.`;
+  F('fStart').focus({preventScroll:true});
+  F('fName').scrollIntoView({block:'center', behavior:'smooth'});
+});
 
 /* map picking */
 let picking = false;
