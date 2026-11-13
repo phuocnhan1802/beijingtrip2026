@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bắc Kinh 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5EFE4; --surface:#FFFCF6; --surface2:#F0E7D8; --ink:#1E1914; --muted:#6D6257; --line:#E3D7C4;
+  --red:#A82A22; --red-ink:#7E1D17; --gold:#C08A2B; --gold-soft:#F3E3C0; --ok:#2F7A55; --warn:#B45309;
+  --water:#CFE0E6; --park:#DDE8CF; --ring:#D9CBB4; --mapbg:#F3ECDF; --palace:#E9C98E;
+  --shadow:0 1px 2px rgba(40,25,10,.06),0 6px 20px rgba(40,25,10,.07);
+  --d21:#6B7280; --d22:#B3261E; --d23:#2F7A55; --d24:#1F5FA8; --d25:#9A6326; --d26:#7A3E9D; --d27:#C2410C; --d28:#0F766E;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16130F; --surface:#211C17; --surface2:#2B241D; --ink:#F1E9DC; --muted:#A99C8C; --line:#3A3128;
+    --red:#E0574B; --red-ink:#F08A80; --gold:#E0AE55; --gold-soft:#3A2E1A; --ok:#4FB585; --warn:#F59E0B;
+    --water:#22394A; --park:#253423; --ring:#4A3F33; --mapbg:#1C1813; --palace:#5A4422;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35);
+    --d21:#9CA3AF; --d22:#EF5A4F; --d23:#4FB585; --d24:#5B9BE6; --d25:#D69A55; --d26:#B07BD3; --d27:#F27C3E; --d28:#2CB5A8;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16130F; --surface:#211C17; --surface2:#2B241D; --ink:#F1E9DC; --muted:#A99C8C; --line:#3A3128;
+  --red:#E0574B; --red-ink:#F08A80; --gold:#E0AE55; --gold-soft:#3A2E1A; --ok:#4FB585; --warn:#F59E0B;
+  --water:#22394A; --park:#253423; --ring:#4A3F33; --mapbg:#1C1813; --palace:#5A4422;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35);
+  --d21:#9CA3AF; --d22:#EF5A4F; --d23:#4FB585; --d24:#5B9BE6; --d25:#D69A55; --d26:#B07BD3; --d27:#F27C3E; --d28:#2CB5A8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body.dnd{user-select:none;cursor:grabbing}
+button{font:inherit;color:inherit}
+a{color:var(--red)}
+.zh{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC","Noto Sans CJK SC",sans-serif}
+
+/* HERO */
+.hero{position:relative;color:#FFF7EA;overflow:hidden;background:#5E1712}
+.hero .bgimg{position:absolute;inset:0;background-size:cover;background-position:center 40%;opacity:.55;filter:saturate(.9)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(94,23,18,.96) 0%,rgba(126,29,23,.82) 45%,rgba(126,29,23,.35) 100%)}
+.hero-in{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:40px 28px 34px}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;font-weight:600}
+.hero h1{margin:8px 0 6px;font-size:clamp(34px,5vw,56px);line-height:1.05;font-weight:800;letter-spacing:-.02em}
+.hero h1 .zh{font-weight:600;font-size:.55em;opacity:.8;margin-left:10px;letter-spacing:0}
+.hero p{margin:0;opacity:.9;font-size:16px}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.stat{background:rgba(255,247,234,.12);border:1px solid rgba(255,247,234,.22);border-radius:12px;padding:8px 14px;backdrop-filter:blur(4px)}
+.stat b{font-size:20px;display:block;line-height:1.2}
+.stat span{font-size:12px;opacity:.85}
+.theme-btn{position:absolute;top:18px;right:20px;z-index:2;background:rgba(255,247,234,.14);border:1px solid rgba(255,247,234,.3);color:#FFF7EA;border-radius:999px;padding:6px 12px;font-size:12px;cursor:pointer}
+
+/* FILTER BAR */
+.filterbar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.filter-in{max-width:1440px;margin:0 auto;padding:8px 28px 6px;display:flex;align-items:center;gap:10px}
+.filter-in.row2{padding:0 28px 8px;gap:8px;overflow-x:auto;scrollbar-width:none}
+.filter-in.row2::-webkit-scrollbar{display:none}
+.filter-label{font-size:11.5px;font-weight:600;color:var(--muted);white-space:nowrap;text-transform:uppercase;letter-spacing:.08em;min-width:64px}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 14px 5px 7px;cursor:pointer;transition:.15s;white-space:nowrap}
+.chip .sw{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff;background:var(--c,var(--ink))}
+.chip .cl{display:flex;flex-direction:column;line-height:1.15;text-align:left}
+.chip .cl b{font-size:13px}
+.chip .cl small{font-size:11px;color:var(--muted)}
+.chip:hover{border-color:var(--c,var(--ink))}
+.chip[aria-pressed="true"]{background:var(--c,var(--ink));border-color:var(--c,var(--ink));color:#fff}
+.chip[aria-pressed="true"] small{color:rgba(255,255,255,.85)}
+.chip[aria-pressed="true"] .sw{background:rgba(255,255,255,.25)}
+.chip.all{padding-left:14px}
+.chip.drop-hover{outline:3px dashed var(--c);outline-offset:2px;transform:scale(1.05)}
+.seg{display:flex;flex:none;background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
+.seg button{border:0;background:none;border-radius:7px;padding:5px 12px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;color:var(--muted)}
+.seg button svg{width:14px;height:14px}
+.seg button .n{font-size:11px;font-weight:700;background:var(--line);color:var(--ink);border-radius:999px;padding:0 6px;line-height:17px}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.seg button[aria-pressed="true"][data-cat="sight"]{color:var(--red)}
+.seg button[aria-pressed="true"][data-cat="food"]{color:var(--gold)}
+.tools{display:flex;gap:6px;margin-left:auto;flex:none;align-items:center}
+.dirty{display:none;font-size:11.5px;font-weight:700;color:var(--warn);white-space:nowrap}
+.dirty.on{display:inline}
+
+/* LAYOUT */
+.layout{max-width:1440px;margin:0 auto;padding:22px 28px 60px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,46%);gap:28px;align-items:start}
+.mapcol{position:sticky;top:112px;height:calc(100vh - 128px);min-height:440px}
+.timeline{min-width:0}
+.hint{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:9px 12px;margin-bottom:20px}
+.hint b{color:var(--ink)}
+.hintwrap{margin-bottom:18px}
+.hintwrap summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:8px;width:max-content}
+.hintwrap .hint{margin-bottom:0}
+.kbd{font-size:11px;font-weight:700;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px;background:var(--surface2);color:var(--ink)}
+
+/* JOURNEY STRIP */
+.strip-title{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:30px}
+.dcard{position:relative;border-radius:14px;overflow:hidden;cursor:pointer;aspect-ratio:4/3;background:var(--surface2);border:0;padding:0;text-align:left;box-shadow:var(--shadow);transition:transform .2s}
+.dcard:hover{transform:translateY(-2px)}
+.dcard img{width:100%;height:100%;object-fit:cover;display:block}
+.dcard .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.78) 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:10px 12px;color:#fff}
+.dcard .dn{position:absolute;top:8px;left:8px;background:var(--c);color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:3px 9px}
+.dcard b{font-size:13px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.dcard small{font-size:11px;opacity:.85}
+
+/* DAY */
+.day{margin-bottom:34px;scroll-margin-top:120px}
+.dayhead{display:flex;gap:16px;align-items:stretch;margin-bottom:14px}
+.datebox{flex:none;width:76px;border-radius:14px;background:var(--c);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 0;box-shadow:var(--shadow)}
+.datebox b{font-size:26px;line-height:1;font-weight:800}
+.datebox span{font-size:11px;opacity:.9;margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
+.dayinfo{min-width:0;display:flex;flex-direction:column;justify-content:center}
+.dayinfo .k{font-size:12px;font-weight:700;color:var(--c);text-transform:uppercase;letter-spacing:.08em}
+.dayinfo h2{margin:2px 0 6px;font-size:22px;line-height:1.2;font-weight:800;letter-spacing:-.01em}
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;border-radius:999px;padding:3px 10px;background:var(--surface2);color:var(--muted);border:1px solid var(--line)}
+.pill svg{width:13px;height:13px}
+.pill.alt{background:var(--gold-soft);color:var(--ink);border-color:transparent}
+.empty{font-size:13px;color:var(--muted);padding:10px 0 4px 122px}
+
+/* STOP */
+.stop{display:grid;grid-template-columns:78px 34px minmax(0,1fr);gap:0 10px;position:relative}
+.stop .time{text-align:right;font-size:12.5px;font-weight:700;padding-top:14px;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.3}
+.stop .time small{display:block;font-weight:500;color:var(--muted)}
+.stop .time .warn{display:inline-block;margin-top:4px;font-size:10.5px;font-weight:700;color:var(--warn);background:color-mix(in srgb,var(--warn) 14%,transparent);border-radius:5px;padding:0 5px}
+.stop .rail{position:relative;display:flex;justify-content:center}
+.stop .rail::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:2px;margin-left:-1px;background:repeating-linear-gradient(var(--c) 0 6px,transparent 6px 10px);opacity:.45}
+.stops .stop:first-child .rail::before{top:18px}
+.node{position:relative;z-index:1;margin-top:10px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:2px solid var(--c);color:var(--c);font-size:12px;font-weight:800}
+.node svg{width:15px;height:15px}
+.node.num{background:var(--c);color:#fff}
+.node.hotel{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.card{margin:6px 0 10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;cursor:pointer;transition:border-color .15s, box-shadow .15s, opacity .15s}
+.card:hover{border-color:color-mix(in srgb,var(--c) 55%,var(--line))}
+.stop.active .card{border-color:var(--c);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 22%,transparent),var(--shadow)}
+.stop.drag-src .card{opacity:.35;border-style:dashed}
+.stop.flash .card{animation:flash 1.4s ease-out}
+@keyframes flash{0%{box-shadow:0 0 0 6px color-mix(in srgb,var(--c) 45%,transparent)}100%{box-shadow:0 0 0 0 transparent}}
+.via{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--c);background:color-mix(in srgb,var(--c) 10%,transparent);border-radius:8px;padding:3px 8px;margin:10px 0 0 14px}
+.via svg{width:13px;height:13px}
+.cbody{display:flex;gap:14px;padding:10px 12px 12px 14px}
+.ctext{min-width:0;flex:1}
+.krow{display:flex;align-items:flex-start;gap:8px}
+.kick{flex:1;min-width:0;padding-top:4px;font-size:11.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:flex;gap:6px 8px;align-items:center;flex-wrap:wrap}
+.kick .zh{text-transform:none;letter-spacing:0;color:var(--red);font-weight:600;font-size:12.5px}
+.ctools{display:flex;gap:2px;flex:none;margin:-2px -4px 0 0}
+.ib{width:30px;height:30px;border-radius:8px;border:0;background:none;display:grid;place-items:center;cursor:pointer;color:var(--muted)}
+.ib:hover{background:var(--surface2);color:var(--ink)}
+.ib svg{width:15px;height:15px}
+.grip{cursor:grab;touch-action:none}
+.grip:active{cursor:grabbing}
+.card h3{margin:2px 0 4px;font-size:16.5px;line-height:1.3;font-weight:700}
+.desc{margin:0;color:var(--muted);font-size:13.5px}
+.note{margin-top:10px;background:var(--surface2);border-left:3px solid var(--gold);border-radius:6px 10px 10px 6px;padding:8px 10px;font-size:13px;white-space:pre-line;word-break:break-word}
+.note .nh{display:block;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.note.clamp .nb{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.more{border:0;background:none;color:var(--red);font-weight:600;font-size:12.5px;padding:4px 0 0;cursor:pointer}
+.actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:5px 9px;cursor:pointer;text-decoration:none;color:var(--ink);white-space:nowrap}
+.btn:hover{border-color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:default;border-color:var(--line)}
+.btn svg{width:13px;height:13px}
+.btn.primary{background:var(--red);border-color:var(--red);color:#fff}
+.btn.dark{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.btn.attn{box-shadow:0 0 0 3px color-mix(in srgb,var(--warn) 35%,transparent)}
+.photo{flex:none;width:168px;align-self:flex-start;position:relative;border-radius:10px;overflow:hidden;aspect-ratio:4/3;background:var(--surface2);cursor:zoom-in;border:0;padding:0;margin-top:4px}
+.photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.photo:hover img{transform:scale(1.05)}
+.photo .src{position:absolute;right:4px;bottom:4px;font-size:9.5px;background:rgba(0,0,0,.55);color:#fff;border-radius:4px;padding:1px 5px}
+.photo.fail{display:none}
+.addrow{display:flex;align-items:center;gap:8px;margin:2px 0 0 122px;border:1.5px dashed var(--line);background:none;border-radius:12px;padding:9px 14px;width:calc(100% - 122px);cursor:pointer;color:var(--muted);font-weight:600;font-size:13px;transition:.15s}
+.addrow:hover{border-color:var(--c);color:var(--c);background:color-mix(in srgb,var(--c) 6%,transparent)}
+.addrow svg{width:16px;height:16px}
+.daynav{display:flex;justify-content:space-between;gap:10px;margin-top:14px}
+
+/* DND */
+.ghost{position:fixed;z-index:200;pointer-events:none;background:var(--surface);border:2px solid var(--c,var(--red));border-radius:12px;padding:8px 12px;box-shadow:0 12px 30px rgba(0,0,0,.25);font-size:13px;max-width:280px;transform:translate(-20px,-50%) rotate(-2deg)}
+.ghost b{display:block}
+.ghost small{color:var(--muted)}
+.dropline{position:fixed;z-index:150;height:4px;border-radius:3px;background:var(--red);pointer-events:none;display:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--red) 20%,transparent)}
+.dropline::before{content:"";position:absolute;left:-6px;top:-4px;width:12px;height:12px;border-radius:50%;background:var(--red)}
+
+/* MAP */
+.mapcard{position:relative;height:100%;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--mapbg);box-shadow:var(--shadow)}
+#map{width:100%;height:100%;display:block;touch-action:none;cursor:grab;user-select:none}
+#map.dragging{cursor:grabbing}
+.mapcard.picking #map{cursor:crosshair}
+.mapcard.picking{box-shadow:0 0 0 3px var(--red),var(--shadow)}
+.pickbar{display:none;position:absolute;left:50%;bottom:56px;transform:translateX(-50%);z-index:4;background:var(--red);color:#fff;font-size:13px;font-weight:600;border-radius:999px;padding:8px 8px 8px 16px;align-items:center;gap:10px;white-space:nowrap;box-shadow:var(--shadow)}
+.mapcard.picking .pickbar{display:flex}
+.pickbar button{border:0;background:rgba(255,255,255,.2);color:#fff;border-radius:999px;padding:4px 12px;cursor:pointer;font-weight:600}
+.maphead{position:absolute;left:12px;top:12px;right:64px;z-index:2;pointer-events:none}
+.maphead .box{display:inline-block;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:12px;padding:8px 12px;max-width:100%;pointer-events:auto}
+.maphead b{font-size:14px;display:block;line-height:1.25}
+.maphead small{color:var(--muted);font-size:12px}
+.zoom{position:absolute;right:12px;top:12px;z-index:2;display:flex;flex-direction:column;gap:6px}
+.zoom button{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:18px;font-weight:600;display:grid;place-items:center;box-shadow:var(--shadow)}
+.zoom button svg{width:16px;height:16px}
+.legend{position:absolute;left:12px;bottom:12px;z-index:2;display:flex;flex-wrap:wrap;gap:10px;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:11.5px;color:var(--muted);max-width:calc(100% - 24px)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.tip{position:absolute;z-index:3;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12px;border-radius:8px;padding:6px 9px;max-width:240px;transform:translate(-50%,calc(-100% - 14px));opacity:0;transition:opacity .12s;line-height:1.35}
+.tip.on{opacity:1}
+.tip b{display:block;font-size:12.5px}
+.tip img{display:block;width:220px;height:110px;object-fit:cover;border-radius:5px;margin-bottom:5px}
+
+/* SVG map styles */
+.m-ring{fill:none;stroke:var(--ring);stroke-width:2}
+.m-ring-l{font-size:10px;fill:var(--muted);font-weight:600}
+.m-water{fill:var(--water)}
+.m-park{fill:var(--park)}
+.m-palace{fill:var(--palace);stroke:var(--red);stroke-width:1.2;stroke-opacity:.6}
+.m-road{stroke:var(--ring);stroke-width:3;fill:none;opacity:.8}
+.m-axis{stroke:var(--gold);stroke-width:1.5;stroke-dasharray:2 4;fill:none;opacity:.8}
+.m-hw{stroke:var(--ring);stroke-width:1.5;stroke-dasharray:6 5;fill:none}
+.m-wall{stroke:var(--muted);stroke-width:2.5;fill:none;stroke-linejoin:round}
+.m-area{font-size:11px;fill:var(--muted);font-style:italic;opacity:.8}
+.route{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:1 9;animation:flow 1.2s linear infinite}
+.route-bg{fill:none;stroke-width:3.5;stroke-linecap:round;opacity:.28}
+@keyframes flow{to{stroke-dashoffset:-20}}
+.pin{cursor:pointer}
+.pin text{font-size:11px;font-weight:800;fill:#fff;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.plabel{font-size:12px;font-weight:700;fill:var(--ink);paint-order:stroke;stroke:var(--mapbg);stroke-width:4px;stroke-linejoin:round;pointer-events:none}
+.plabel.dim{font-weight:600;font-size:11px;fill:var(--muted)}
+.pulse{transform-box:fill-box;transform-origin:center;animation:pulse 1.6s ease-out infinite}
+@keyframes pulse{0%{transform:scale(1);opacity:.55}100%{transform:scale(2.6);opacity:0}}
+.edge rect{fill:var(--surface);stroke:var(--line)}
+.edge text{font-size:11px;font-weight:700;fill:var(--ink);dominant-baseline:central}
+.edge{cursor:pointer}
+.draftpin{animation:bob 1s ease-in-out infinite alternate}
+@keyframes bob{to{transform:translateY(-4px)}}
+
+/* OVERLAYS */
+.overlay{position:fixed;inset:0;z-index:100;background:rgba(10,8,6,.86);display:none;align-items:center;justify-content:center;padding:20px}
+.overlay.on{display:flex}
+.lb{max-width:min(1100px,100%);max-height:100%;display:flex;flex-direction:column;gap:10px;color:#fff}
+.lb img{max-width:100%;max-height:78vh;object-fit:contain;border-radius:10px;display:block;margin:0 auto}
+.lb .cap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px}
+.lb .cap a{color:#F3C77A}
+.xbtn{position:fixed;top:14px;right:16px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:22px;cursor:pointer}
+.driver{background:#FFFCF6;color:#1E1914;border-radius:20px;padding:34px 28px;text-align:center;max-width:640px;width:100%}
+.driver .ask{font-size:18px;color:#A82A22;font-weight:700}
+.driver .big{font-size:clamp(40px,9vw,72px);font-weight:700;line-height:1.15;margin:14px 0}
+.driver .sub{color:#6D6257;font-size:14px}
+
+/* EDITOR */
+#editOv{background:rgba(10,8,6,.55);align-items:flex-start;overflow-y:auto;padding:28px 16px}
+#editOv.min{display:none}
+.dlg{background:var(--surface);color:var(--ink);border-radius:18px;width:100%;max-width:660px;margin:auto;box-shadow:0 20px 60px rgba(0,0,0,.35);border:1px solid var(--line)}
+.dlg-h{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 10px}
+.dlg-h h3{margin:0;font-size:18px}
+.dlg-b{padding:4px 20px 16px;display:flex;flex-direction:column;gap:14px}
+.dlg-f{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 20px 16px;border-top:1px solid var(--line)}
+.dlg-f .sp{flex:1}
+.pastebox{background:var(--surface2);border-radius:14px;padding:12px;border:1px solid var(--line)}
+.pastebox .lbl{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.pastebox .lbl b{font-size:13px}
+.pastebox .lbl b span{color:var(--red)}
+.cands{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.cands:empty{display:none}
+.cand{display:flex;align-items:center;gap:10px;text-align:left;width:100%;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:7px 10px;cursor:pointer}
+.cand:hover,.cand.sel{border-color:var(--red);box-shadow:0 0 0 2px color-mix(in srgb,var(--red) 18%,transparent)}
+.cand .tag{flex:none;font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 6px;background:var(--surface2);color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.cand .tag.sight{background:color-mix(in srgb,var(--red) 14%,transparent);color:var(--red)}
+.cand .tag.food{background:color-mix(in srgb,var(--gold) 20%,transparent);color:var(--gold)}
+.cand .tag.new{background:var(--ink);color:var(--bg)}
+.cand .cn{flex:1;min-width:0}
+.cand .cn b{display:block;font-size:13.5px}
+.cand .cn small{color:var(--muted);font-size:12px}
+.cand .zh{color:var(--red);font-size:14px;font-weight:600;flex:none}
+.recog-note{font-size:12px;color:var(--muted);margin-top:6px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.fld{display:flex;flex-direction:column;gap:4px;min-width:0}
+.fld.w2{grid-column:span 2}
+.fld.w4{grid-column:span 4}
+.fld label{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.fld input,.fld select,.fld textarea,.pastebox textarea{font:inherit;font-size:14px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:8px 10px;width:100%;min-width:0}
+.fld textarea,.pastebox textarea{resize:vertical;line-height:1.45}
+.fld input:focus,.fld select:focus,.fld textarea:focus,.pastebox textarea:focus{outline:2px solid color-mix(in srgb,var(--red) 40%,transparent);border-color:var(--red)}
+.locbox{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--surface)}
+.locbox .st{flex:1;min-width:180px;font-size:13px}
+.locbox .st b{display:block}
+.locbox .st small{color:var(--muted)}
+.locbox .dot{width:12px;height:12px;border-radius:50%;background:var(--muted);flex:none}
+.locbox .dot.on{background:var(--ok)}
+
+/* TOAST */
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);z-index:300;background:var(--ink);color:var(--bg);border-radius:12px;padding:10px 12px 10px 16px;font-size:13.5px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 30px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:.2s;max-width:calc(100% - 32px)}
+.toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast button{border:0;background:color-mix(in srgb,var(--bg) 18%,transparent);color:var(--bg);border-radius:8px;padding:5px 10px;font-weight:700;cursor:pointer;white-space:nowrap}
+
+footer{max-width:1440px;margin:0 auto;padding:0 28px 40px;color:var(--muted);font-size:12px}
+
+/* RESPONSIVE */
+@media (max-width: 1020px){
+  .layout{grid-template-columns:1fr;gap:18px;padding:16px 16px 50px}
+  .mapcol{position:relative;top:0;height:min(62vh,460px);min-height:340px;order:-1}
+  .filter-in{padding:8px 16px 6px}
+  .filter-in.row2{padding:0 16px 8px}
+  .hero-in{padding:34px 16px 26px}
+  footer{padding:0 16px 30px}
+}
+@media (max-width: 640px){
+  .filter-label{display:none}
+  .strip{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stop{grid-template-columns:50px 26px minmax(0,1fr);gap:0 8px}
+  .stop .time{font-size:11.5px}
+  .node{width:24px;height:24px;font-size:11px}
+  .cbody{flex-direction:column-reverse;gap:10px;padding:10px 10px 12px 12px}
+  .photo{width:100%;aspect-ratio:16/8}
+  .datebox{width:62px}
+  .datebox b{font-size:22px}
+  .dayinfo h2{font-size:19px}
+  .theme-btn{top:12px;right:12px}
+  .hero-in{padding-top:56px}
+  .stats{gap:6px;margin-top:16px}
+  .stat{padding:6px 10px;border-radius:10px}
+  .stat b{font-size:16px}
+  .stat span{font-size:11px}
+  .legend{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;font-size:10.5px;gap:8px;scrollbar-width:none}
+  .legend span{flex:none}
+  .addrow,.empty{margin-left:84px;width:calc(100% - 84px)}
+  .empty{padding-left:0}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fld.w4{grid-column:span 2}
+  .dlg-h,.dlg-b,.dlg-f{padding-left:14px;padding-right:14px}
+  .pickbar{white-space:normal;width:calc(100% - 24px);justify-content:space-between}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="bgimg" id="heroImg"></div>
+  <button class="theme-btn" id="themeBtn" type="button">Giao diện: Tự động</button>
+  <div class="hero-in">
+    <div class="eyebrow">Lịch trình nhóm · Beijing trip 2026</div>
+    <h1>Bắc Kinh <span class="zh">北京</span></h1>
+    <p>21 - 28/11/2026 · 8 ngày 7 đêm · từ Tử Cấm Thành tới Vạn Lý Trường Thành</p>
+    <div class="stats" id="stats"></div>
+  </div>
+</header>
+
+<nav class="filterbar" aria-label="Bộ lọc">
+  <div class="filter-in">
+    <span class="filter-label">Lọc ngày</span>
+    <div class="chips" id="chips" role="toolbar"></div>
+  </div>
+  <div class="filter-in row2">
+    <span class="filter-label">Lọc loại</span>
+    <div class="seg" id="seg" role="toolbar"></div>
+    <div class="tools">
+      <span class="dirty" id="dirty">● Có thay đổi chưa lưu</span>
+      <button class="btn" type="button" id="undoBtn" title="Hoàn tác (Ctrl+Z)" disabled></button>
+      <button class="btn primary" type="button" id="addBtn"></button>
+      <button class="btn" type="button" id="excelBtn"></button>
+      <button class="btn dark" type="button" id="saveBtn"></button>
+      <button class="btn" type="button" id="resetBtn" title="Quay về lịch trình lúc mở file"></button>
+    </div>
+  </div>
+</nav>
+
+<main class="layout">
+  <section class="timeline" id="timeline" aria-live="polite"></section>
+  <aside class="mapcol">
+    <div class="mapcard" id="mapcard">
+      <div class="maphead"><div class="box"><b id="mapTitle">Toàn hành trình</b><small id="mapSub"></small></div></div>
+      <div class="zoom">
+        <button type="button" id="zin" aria-label="Phóng to">+</button>
+        <button type="button" id="zout" aria-label="Thu nhỏ">−</button>
+        <button type="button" id="zfit" aria-label="Vừa khung"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+      </div>
+      <svg id="map" role="img" aria-label="Bản đồ lộ trình Bắc Kinh"></svg>
+      <div class="tip" id="tip"></div>
+      <div class="legend" id="legend"></div>
+      <div class="pickbar" id="pickbar"><span>Bấm vào bản đồ để ghim vị trí (hoặc bấm vào một điểm có sẵn)</span><button type="button" id="pickCancel">Hủy</button></div>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  Dữ liệu gốc lấy từ sheet "Lịch trình update" (cột A-E) của file Beijing trip 2026. Vị trí trên bản đồ là tương đối để hình dung lộ trình - bấm "Google Maps" hoặc "Amap" để xem chỉ đường chính xác (ở Trung Quốc nên dùng Amap). Mọi chỉnh sửa chỉ nằm trong trang đang mở: bấm "Tải bản đã sửa" để lưu thành file HTML mới, hoặc "Copy cho Excel" để dán ngược vào sheet. Ảnh minh hoạ: Wikimedia Commons.
+</footer>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true">
+  <button class="xbtn" id="xbtn" aria-label="Đóng">×</button>
+  <div id="ovBody"></div>
+</div>
+
+<div class="overlay" id="editOv" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+  <form class="dlg" id="dlg" autocomplete="off">
+    <div class="dlg-h"><h3 id="dlgTitle">Thêm hoạt động</h3><button class="ib" type="button" data-close aria-label="Đóng"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="dlg-b">
+      <div class="pastebox">
+        <div class="lbl"><b>Dán & nhận diện địa điểm <span class="zh">· 汉字</span></b>
+          <span style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn" type="button" id="readClip">Dán từ clipboard</button><button class="btn" type="button" id="pasteStopBtn" hidden>Dán hoạt động đã sao chép</button></span></div>
+        <textarea id="pasteBox" rows="2" placeholder="Dán tên chữ Hán, tin chia sẻ Amap/Dianping, hoặc gõ tên. VD: 故宫, 南锣鼓巷, 【高德地图】四季民福烤鸭店, Summer Palace"></textarea>
+        <div class="cands" id="cands"></div>
+        <div class="recog-note" id="recogNote"></div>
+      </div>
+      <div class="grid">
+        <div class="fld w2"><label for="fDay">Ngày</label><select id="fDay"></select></div>
+        <div class="fld"><label for="fStart">Bắt đầu</label><input id="fStart" type="time"></div>
+        <div class="fld"><label for="fEnd">Kết thúc</label><input id="fEnd" type="time"></div>
+        <div class="fld w2"><label for="fName">Tên hiển thị *</label><input id="fName" required placeholder="VD: Tử Cấm Thành"></div>
+        <div class="fld w2"><label for="fZh">Tên chữ Hán</label><input id="fZh" class="zh" placeholder="VD: 故宫博物院"></div>
+        <div class="fld w2"><label for="fCat">Loại</label><select id="fCat"></select></div>
+        <div class="fld w2"><label for="fVia">Cách đi tới</label><input id="fVia" placeholder="VD: Metro Line 2 · 2 ga"></div>
+        <div class="fld w4"><label>Vị trí trên bản đồ</label>
+          <div class="locbox"><span class="dot" id="locDot"></span><div class="st" id="locSt"></div>
+            <button class="btn" type="button" id="pickBtn">Chọn trên bản đồ</button><button class="btn" type="button" id="unpinBtn">Bỏ ghim</button></div></div>
+        <div class="fld w4"><label for="fDesc">Mô tả (cột "Dzụ gì vậy?")</label><textarea id="fDesc" rows="2"></textarea></div>
+        <div class="fld w4"><label for="fNote">PIC ghi chép</label><textarea id="fNote" rows="3"></textarea></div>
+        <div class="fld w4"><label for="fImg">Link ảnh (tuỳ chọn)</label><input id="fImg" placeholder="https://..."></div>
+      </div>
+    </div>
+    <div class="dlg-f">
+      <button class="btn" type="button" id="delBtn">Xóa</button>
+      <button class="btn" type="button" id="dupBtn">Nhân bản</button>
+      <span class="sp"></span>
+      <button class="btn" type="button" data-close>Hủy</button>
+      <button class="btn primary" type="submit">Lưu</button>
+    </div>
+  </form>
+</div>
+
+<div class="toast" id="toast"><span id="toastMsg"></span><button type="button" id="toastAct" hidden></button></div>
+<div class="dropline" id="dropline"></div>
+
+<script id="trip-data" type="application/json">{"places":{"PKX":{"name":"Sân bay Đại Hưng (PKX)","short":"Sân bay Đại Hưng","zh":"北京大兴国际机场","q":"Beijing Daxing International Airport","lat":39.5098,"lng":116.4105,"kind":"airport"},"H1":{"name":"Home Inn Plus Tuanjiehu","short":"KS 1 · Home Inn Plus","zh":"如家精选酒店 团结湖","q":"Home Inn Plus Hotel Beijing Tuanjiehu Chaoyang Park Metro Station","lat":39.933,"lng":116.4628,"kind":"hotel"},"H2":{"name":"Wei Hotel Fan (Wangjing SOHO)","short":"KS 2 · Wei Hotel Fan","zh":"阜通西大街 16号院 2号楼","q":"Wei Hotel Fan Beijing Wangjing SOHO","lat":39.994,"lng":116.4752,"kind":"hotel"},"FC":{"name":"Tử Cấm Thành","short":"Tử Cấm Thành","zh":"故宫博物院","q":"Forbidden City Beijing","lat":39.9163,"lng":116.3972,"kind":"sight"},"QJD":{"name":"Quanjude - vịt quay","short":"Quanjude","zh":"全聚德","q":"Quanjude Roast Duck Wangfujing","lat":39.9118,"lng":116.4098,"kind":"food"},"JS":{"name":"Công viên Cảnh Sơn","short":"Cảnh Sơn","zh":"景山公园","q":"Jingshan Park Beijing","lat":39.9256,"lng":116.3962,"kind":"sight"},"HH":{"name":"Khu Hậu Hải","short":"Hậu Hải","zh":"后海","q":"Houhai Beijing","lat":39.9418,"lng":116.3826,"kind":"food"},"MTY":{"name":"Vạn Lý Trường Thành Mutianyu","short":"Mutianyu","zh":"慕田峪长城","q":"Mutianyu Great Wall","lat":40.4319,"lng":116.5704,"kind":"sight"},"HR":{"name":"Hoài Nhu - cá hồi vân","short":"Ăn trưa Hoài Nhu","zh":"怀柔 虹鳟鱼","q":"Mutianyu rainbow trout restaurant Huairou","lat":40.4085,"lng":116.5545,"kind":"food"},"KBBQ":{"name":"Doumanjiang Jiaodaokou","short":"BBQ Doumanjiang","zh":"豆满江 交道口","q":"80 Jiaodaokou South Street Dongcheng Beijing","lat":39.9398,"lng":116.4038,"kind":"food"},"QF":{"name":"Bánh bao Qingfeng","short":"Qingfeng","zh":"庆丰包子铺 天坛东门店","q":"Qingfeng Steamed Buns Tiantan East Gate","lat":39.8838,"lng":116.4232,"kind":"food"},"TT":{"name":"Thiên Đàn","short":"Thiên Đàn","zh":"天坛公园","q":"Temple of Heaven Beijing","lat":39.8822,"lng":116.4066,"kind":"sight"},"XL":{"name":"Xianglong Restaurant","short":"Xianglong","zh":"天坛东路77号","q":"Xianglong Restaurant 77 Tiantan East Road Beijing","lat":39.8796,"lng":116.4228,"kind":"food"},"QM":{"name":"Phố Tiền Môn","short":"Tiền Môn","zh":"前门大街","q":"Qianmen Street Beijing","lat":39.8972,"lng":116.3978,"kind":"sight"},"DSL":{"name":"Đại Sách Lan (Dashilan)","short":"Dashilan","zh":"大栅栏","q":"Dashilan Beijing","lat":39.8956,"lng":116.393,"kind":"sight"},"DLS":{"name":"Donglaishun (Thiên Đàn)","short":"Donglaishun","zh":"东来顺 天坛店","q":"Donglaishun Tiantan Beijing","lat":39.8868,"lng":116.4112,"kind":"food"},"SP":{"name":"Di Hòa Viên","short":"Di Hòa Viên","zh":"颐和园","q":"Summer Palace Beijing","lat":39.9999,"lng":116.2755,"kind":"sight"},"NM":{"name":"Bảo tàng Quốc gia Trung Quốc","short":"Bảo tàng QG","zh":"中国国家博物馆","q":"National Museum of China","lat":39.905,"lng":116.4013,"kind":"sight"},"WFJ":{"name":"Vương Phủ Tỉnh","short":"Vương Phủ Tỉnh","zh":"王府井","q":"Wangfujing Beijing","lat":39.9142,"lng":116.4112,"kind":"food"},"OP":{"name":"Công viên Olympic · Tổ Chim","short":"Tổ Chim · Olympic","zh":"奥林匹克公园 鸟巢","q":"Beijing National Stadium Olympic Park","lat":39.9929,"lng":116.3965,"kind":"sight"},"WJ":{"name":"Hua Jia Yi Yuan (Vọng Kinh)","short":"Hua Jia Yi Yuan","zh":"花家怡园 望京","q":"Hua Jia Yi Yuan Wangjing Beijing","lat":39.9968,"lng":116.4688,"kind":"food"},"YH":{"name":"Ung Hòa Cung (Chùa Lạt Ma)","short":"Ung Hòa Cung","zh":"雍和宫","q":"Yonghe Temple Lama Temple Beijing","lat":39.9475,"lng":116.417,"kind":"sight"},"MRS":{"name":"Mr Shi's Dumplings","short":"Mr Shi's","zh":"宝钞胡同74号","q":"Mr Shi's Dumplings Baochao Hutong Beijing","lat":39.9418,"lng":116.3958,"kind":"food"},"NLG":{"name":"Nam La Cổ Hạng","short":"Nam La Cổ Hạng","zh":"南锣鼓巷","q":"Nanluoguxiang Beijing","lat":39.9372,"lng":116.403,"kind":"sight"},"SCH":{"name":"Thập Sát Hải","short":"Thập Sát Hải","zh":"什刹海","q":"Shichahai Beijing","lat":39.9392,"lng":116.3868,"kind":"sight"},"HDL":{"name":"Haidilao Vương Phủ Tỉnh","short":"Haidilao","zh":"海底捞 王府井大街88号","q":"Haidilao 88 Wangfujing Street Beijing","lat":39.9158,"lng":116.4106,"kind":"food"},"A798":{"name":"Khu nghệ thuật 798","short":"798 Art District","zh":"798艺术区","q":"798 Art District Beijing","lat":39.984,"lng":116.4955,"kind":"sight"}},"days":[{"id":"21","date":"21/11","wd":"Thứ Bảy","wds":"T7","title":"VN - TQ","sub":"Bay sang Bắc Kinh","cover":"SGN","start":null,"stay":"Đến Bắc Kinh lúc tối muộn","stops":[{"t":"12:00 - 13:00","cat":"flight","name":"Có mặt sân bay Tân Sơn Nhất · Ga T2","desc":"Có mặt tại Nhà ga T2 - Sân bay Quốc tế Tân Sơn Nhất + Làm thủ tục","note":"- Nhớ đem passport\n- GA T2 NHA!","img":"SGN"},{"t":"16:00","cat":"flight","name":"Cất cánh","desc":"Bay lên trên mọi người..."},{"t":"22:00","cat":"flight","name":"Hạ cánh Bắc Kinh · nhập cảnh","desc":"Bay xuống... Nhập cảnh","note":"- Có điền tờ khai nhập cảnh tại chỗ\n- Sẽ bị hỏi: Đi đâu? Làm gì? Đi với ai? Bạn m đâu?","loc":"PKX","img":"PKX"}]},{"id":"22","date":"22/11","wd":"Chủ Nhật","wds":"CN","title":"Tử Cấm Thành - Công viên Cảnh Sơn","cover":"FC","start":"PKX","stay":"H1","stops":[{"t":"00:00","cat":"move","name":"Về khách sạn Home Inn Plus gửi đồ","desc":"Di chuyển về hotel Homeinn Plus Hotel (Beijing Tuanjiehu Chaoyang Park Metro Station) gửi đồ","note":"Chặng 1: PKX → Caoqiao: đi xuống tầng B1 > lên Airport Express > Khoảng 06:20: đến Caoqiao\nChặng 2: Caoqiao → Tuanjiehu: Tại Caoqiao, bạn chuyển sang Metro Line 10 (地铁10号线) > chọn tàu theo hướng Bagou (巴沟), Outer Loop (外环) để đi đường ngắn hơn đến Tuanjiehu.\nChặng 3: Tuanjiehu → khách sạn: 800m\nDi chuyển tổng: 1h30p","loc":"H1","via":"Airport Express + Metro Line 10 · ~1h30"},{"t":"08:00","cat":"food","name":"Ăn sáng gần khách sạn","desc":"Ăn sáng gần khách sạn"},{"t":"09:30","cat":"sight","name":"Tử Cấm Thành","desc":"Nhập cung Tử Cấm Thành","note":"Đi bằng DiDi ~30p","loc":"FC","img":"FC","via":"DiDi ~30p"},{"t":"13:00","cat":"food","name":"Vịt quay Bắc Kinh · Quanjude","desc":"Ăn trưa dzịt quay Pek - Quanjude Roast Duck Restaurant","note":"Gần Tử Cấm Thành","loc":"QJD","img":"DUCK"},{"t":"15:00","cat":"sight","name":"Công viên Cảnh Sơn","desc":"A E Sã Sà... Đi chơi Công Viên Cảnh Sơn","note":"Sau lưng Tử Cấm Thành","loc":"JS","img":"JS","via":"Đi bộ"},{"t":"18:30","cat":"food","name":"Ăn tối khu Hậu Hải","desc":"Ăn tối ở khu Houhai area","loc":"HH","img":"LAKE"},{"t":"20:30","cat":"hotel","name":"Về khách sạn check-in","desc":"Dzìa hotel check-in","loc":"H1"}]},{"id":"23","date":"23/11","wd":"Thứ Hai","wds":"T2","title":"Vạn Lý Trường Thành","cover":"MTY","start":"H1","stay":"H1","stops":[{"t":"06:30","cat":"move","name":"Xuất phát đi Vạn Lý Trường Thành","desc":"Depart the hotel for the Great Wall by chartered 13-seat van"},{"t":"08:30 - 12:30","cat":"sight","name":"Vạn Lý Trường Thành · Mutianyu","desc":"Mutianyu Great Wall, Mutianyu Village, Huairou District - restored section of the Great Wall in the mountains north of Beijing; cable car and walk along the wall","loc":"MTY","img":"MTY","via":"Xe van 13 chỗ thuê riêng"},{"t":"12:30 - 14:00","cat":"food","name":"Ăn trưa cá hồi vân ở Hoài Nhu","desc":"Lunch in Huairou District - local restaurant (rainbow trout speciality)","loc":"HR"},{"t":"14:00 - 16:00","cat":"move","name":"Về lại trung tâm Bắc Kinh","desc":"Return journey to central Beijing by chartered van","via":"Xe van thuê riêng"},{"t":"16:00 - 18:00","cat":"rest","name":"Nghỉ ngơi ở khách sạn","desc":"Rest at the hotel","loc":"H1"},{"t":"18:30 - 20:00","cat":"food","name":"BBQ Hàn Quốc · Doumanjiang","desc":"Dinner - Korean BBQ, Doumanjiang Jiaodaokou, No. 80 Jiaodaokou South Street, Dongcheng District","loc":"KBBQ","img":"KBBQ"}]},{"id":"24","date":"24/11","wd":"Thứ Ba","wds":"T3","title":"Thiên Đàn - Phố Tiền Môn - Phố cổ Đại Thập Lý","cover":"TT","start":"H1","stay":"H1","stops":[{"t":"08:00 - 08:30","cat":"move","name":"Từ khách sạn đến Thiên Đàn","desc":"From Hotel to Temple of Heaven","note":"> Walk 500 m to Chaoyang Park Station (朝阳公园)\n> Line 14 toward Zhangguozhuang (张郭庄) to Puhuangyu (蒲黄榆)\n> Change to Line 5 toward Tiantongyuan North, 1 stop to Tiantandongmen (天坛东门)\n> Exit A2, then walk 5 minutes"},{"t":"08:30 - 09:00","cat":"food","name":"Ăn sáng bánh bao Qingfeng","desc":"Breakfast","note":"Qingfeng Steamed Buns, Temple East Gate branch (庆丰包子铺 天坛东门店)","loc":"QF","via":"Metro Line 14 → Line 5 · ra cửa A2"},{"t":"09:00 - 11:30","cat":"sight","name":"Thiên Đàn","desc":"Temple of Heaven (Tiantan), 1 Tiantan East Road, Dongcheng District - imperial sacrificial complex; Hall of Prayer for Good Harvests, Echo Wall and Circular Mound Altar","note":"Book through the WeChat account \"Temple of Heaven\" with your passport information. Combo ticket. Source: https://english.beijing.gov.cn/specials/ticketing/parks/202407/t20240719_3753312.html","loc":"TT","img":"TT","via":"Đi bộ"},{"t":"11:45 - 12:45","cat":"food","name":"Ăn trưa · Xianglong Restaurant","desc":"Lunch - Xianglong Restaurant, 77 Tiantan East Road","note":"Leave by the East Gate and walk along Tiantan East Road","loc":"XL","via":"Đi bộ"},{"t":"13:00 - 15:00","cat":"sight","name":"Phố Tiền Môn","desc":"Qianmen (Zhengyangmen), Qianmen Street, Dongcheng District - historic street area immediately south of Tiananmen Square","note":"Take Didi to Qianmen (15~20 mins)","loc":"QM","img":"QM","via":"DiDi 15-20p"},{"t":"15:00 - 17:00","cat":"sight","name":"Đại Sách Lan (Dashilan)","desc":"Dashilan, Xicheng District - historic commercial lane with long-established shops and workshops","note":"Walk from Qianmen Street, west into 大栅栏","loc":"DSL","img":"DSL","via":"Đi bộ"},{"t":"17:00 - 18:00","cat":"rest","name":"Nghỉ chân uống cà phê","desc":"Café break"},{"t":"18:30 - 20:00","cat":"food","name":"Lẩu cừu Donglaishun","desc":"Dinner - Donglaishun (Tiantan branch), Beijing-style instant-boiled mutton","note":"Take Didi to Donglaishun","loc":"DLS","img":"HOTPOT","via":"DiDi"},{"t":"","cat":"hotel","name":"Về khách sạn","desc":"Return to the hotel","note":"Didi or subway (below)\nZhushikou (珠市口), Line 7 east to Jiulongshan (九龙山), then Line 14 toward Shangezhuang to Chaoyang Park","loc":"H1","via":"DiDi hoặc Metro Line 7 → Line 14"}]},{"id":"25","date":"25/11","wd":"Thứ Tư","wds":"T4","title":"Di Hoà Viên ++","cover":"SP","start":"H1","stay":"H2","stops":[{"t":"","cat":"hotel","name":"Check-out, gửi hành lý","desc":"Hotel check-out / luggage storage","loc":"H1"},{"t":"08:00 - 11:30","cat":"sight","name":"Di Hòa Viên","desc":"Summer Palace (Yiheyuan), 19 Xinjian Gongmen Road, Haidian District - imperial garden and UNESCO World Heritage site","loc":"SP","img":"SP"},{"t":"11:45 - 13:00","cat":"food","name":"Ăn trưa gần Di Hòa Viên","desc":"Lunch near the Summer Palace, Haidian District"},{"t":"13:00 - 15:00","cat":"hotel","name":"Chuyển sang khách sạn 2 & check-in","desc":"Transfer to the second hotel in central Beijing and check-in","loc":"H2"},{"t":"18:30 - 20:00","cat":"food","name":"Ăn tối gần khách sạn & nghỉ ngơi","desc":"Dinner near the hotel and rest"}]},{"id":"26","date":"26/11","wd":"Thứ Năm","wds":"T5","title":"Bảo tàng Quốc gia - Olympic Park - SVĐ Tổ Chim","alt":"Phương án khác: Đi trượt tuyết","cover":"NEST","start":"H2","stay":"H2","stops":[{"t":"","cat":"food","name":"Ăn sáng gần khách sạn","desc":"Breakfast near the hotel","note":"nhóm thứ 2 ở khách sạn Wei Hotel Fan (Beijing Wangjing SOHO), địa chỉ Building 2, No. 16 Courtyard, Futong West Street, Chaoyang (gần ga Futong 阜通, Line 14), tìm ăn sáng gần đây, searchinggg"},{"t":"09:00 - 12:30","cat":"sight","name":"Bảo tàng Quốc gia Trung Quốc","desc":"National Museum of China, 16 East Chang'an Avenue, Dongcheng District - permanent collections on Chinese history, culture and art. Free timed ticket reserved in advance (real-name registration).","note":"Đi Line 14 từ Futong (阜通) tới Dawanglu (大望路), đổi Line 1 hướng tây, xuống Tiananmen East (天安门东). Hoặc đi DiDi khoảng 40 phút\nMiễn phí nhưng phải đặt trước theo tên thật qua mini-program WeChat \"国家博物馆\". Nhớ mang passport gốc. Nên ưu tiên khu \"Ancient China\" (古代中国) vì đây là phần đáng xem nhất. Xếp hàng an ninh có thể mất 20-30 phút, mang túi nhỏ kiểu túi xách mini nha mấy haii, túi bự là bị đuổi\nVé thường rất khó đặt và nhanh hết, nên canh vào ngày 19/1 tầm 16h (thường hết vé sau 30p-1h) (đặt trước tối đa 7 ngày) qua trang https://en.chnmuseum.cn/\n-> 1 lần có thể đặt dc cho 5 người","loc":"NM","img":"NM","via":"Metro Line 14 → Line 1 hoặc DiDi ~40p"},{"t":"12:45 - 14:00","cat":"food","name":"Ăn trưa khu Vương Phủ Tỉnh","desc":"Lunch in the Tiananmen / Wangfujing area","note":"Ăn trưa ở Vương Phủ Tỉnh, Có thể chuyển Hua Jia Yi Yuan lên bữa trưa, hoặc ăn vịt quay Siji Minfu (四季民福).","loc":"WFJ","img":"WFJ"},{"t":"14:30 - 17:00","cat":"sight","name":"Công viên Olympic · SVĐ Tổ Chim","desc":"Olympic Park, Chaoyang District - 2008 Olympic complex; exterior visit to the National Stadium (Bird's Nest) and the National Aquatics Centre (Water Cube)","note":"Đi Line 8 từ Wangfujing thẳng tới Olympic Green (奥林匹克公园), không phải đổi tuyến.\nVé mua qua WeChat hoặc mua tại quầy.","loc":"OP","img":"NEST","via":"Metro Line 8 · không đổi tuyến"},{"t":"18:00 - 20:00","cat":"food","name":"Ăn tối · Hua Jia Yi Yuan","desc":"Dinner - Hua Jia Yi Yuan, Wangfujing area","note":"Ăn tối ở Wangjing (望京) Đi Line 15 từ Olympic Green tới Wangjing, khoảng 15 phút.","loc":"WJ","via":"Metro Line 15 · ~15p"},{"t":"","cat":"hotel","name":"Về khách sạn","desc":"Return to the hotel","note":"Từ Wangjing đi 1 ga Line 14 là tới Futong","loc":"H2","via":"Metro Line 14 · 1 ga"}]},{"id":"27","date":"27/11","wd":"Thứ Sáu","wds":"T6","title":"Chùa Lạt Ma - Phố Nam La Cổ Hạng - Thập Sát Hải","cover":"YH","start":"H2","stay":"H2","stops":[{"t":"","cat":"food","name":"Ăn sáng ở khách sạn","desc":"Breakfast at the hotel"},{"t":"09:30 - 11:00","cat":"sight","name":"Ung Hòa Cung (Chùa Lạt Ma)","desc":"Yonghe Temple (Lama Temple), 12 Yonghegong Street, Dongcheng District - Tibetan Buddhist monastery of the Gelug school","note":"Di chuyển từ khách sạn đến ga Futong, leen metro line 14 -> line 15 -> line 5: ga Yonghee Gong là đến chà\nVé có thể mua trực tiếp bằng tiền mặt và Wechat, 30 tệ 1 người -> Recommend mua trực tiếp\nCách đặt vé đi Ung Hoà Cung và mua vòng cực cực dễ cho người đi Bắc Kinh.\nBước 1: Vào WeChat tìm 雍和宫\nBước 2: Ấn vào 个人购票\nBước 3: Nhập hộ chiếu là xong\nXem ảnh để chi tiết hơn nha.\nUng Hoà Cung bán vé trên web là từ 6h sáng đến 9h tối, 4h30 đóng cửa\nNote: UHC không còn bán mấy vật phẩm may mắn như vòng, nhưng còn khai quang, có thể mua vòng ở mấy chỗ xung quanh rồi mang vô khai quang\n-> Có thể qua QUỐC TỬ GIÁM Vvà KHỔNG MIẾU, nghe đồn rất rộng và đẹp. Và có 1 quán bánh gì đó mọi người kêu thèm nhiều chắc là ngon","loc":"YH","img":"YH","via":"Metro Line 14 → 15 → 5"},{"t":"11:15 - 13:00","cat":"food","name":"Nam La Cổ Hạng · ăn trưa Mr Shi's Dumplings","desc":"Nanluoguxiang, Dongcheng District - historic hutong lane with courtyard houses, shops and cafés. Lunch at Mr Shi's Dumplings, 74 Baochao Hutong.","note":"Từ chùa sang Mr Shi’s chỉ cần đi 1 tuyến tàu, không phải đổi tuyến. Bạn đi Line 2 từ ga 雍和宫 về hướng tây, đi 2 ga (Andingmen → 鼓楼大街 Gulou Dajie). Ra ga, đi bộ xuống phía nam khoảng 10 phút là vào Baochao Hutong. Khi đi bạn mở Amap để xem cửa ra gần nhất.\nĂn xong lúc 13:00 thì đoàn bắt đầu dạo Nam La Cổ Hạng và các hutong quanh đó, đúng khung 13:00-15:00. Sau đó đi về phía tây qua Gác Trống và 烟袋斜街 là tới Thập Sát Hải","loc":"MRS","via":"Metro Line 2 · 2 ga + đi bộ 10p"},{"t":"13:00 - 15:00","cat":"sight","name":"Dạo hutong quanh Nam La Cổ Hạng","desc":"Walking exploration of the hutong lanes around Nanluoguxiang","loc":"NLG","img":"NLG","via":"Đi bộ"},{"t":"15:00 - 17:30","cat":"sight","name":"Thập Sát Hải","desc":"Shichahai, Xicheng District - late-afternoon walk around the lakes and surrounding hutong","loc":"SCH","img":"LAKE","via":"Đi bộ qua Gác Trống, 烟袋斜街"},{"t":"18:30 - 20:30","cat":"food","name":"Lẩu Haidilao Vương Phủ Tỉnh","desc":"Dinner - Haidilao, No. 88 Wangfujing Street, 8th floor, Dongcheng District","loc":"HDL","img":"HDL"},{"t":"","cat":"hotel","name":"Về khách sạn","desc":"Return to the hotel\nWei Hotel Fan (Beijing Wangjing SOHO Yitong Subway Station)\nBuilding 2, No. 16 Courtyard, Futong West Street, Chaoyang District, Beijing, 100102, China","loc":"H2"}]},{"id":"28","date":"28/11","wd":"Thứ Bảy","wds":"T7","title":"Khu Nghệ Thuật 789 - Đi dzìa nước","cover":"A798","start":"H2","stay":"Về nhà","stops":[{"t":"08:00 - 09:00","cat":"hotel","name":"Ăn sáng, check-out, gửi hành lý","desc":"Breakfast and hotel check-out; luggage storage"},{"t":"09:30 - 12:00","cat":"sight","name":"Khu nghệ thuật 798","desc":"798 Art District, 2 & 4 Jiuxianqiao Road, Chaoyang District - contemporary art galleries, studios and design shops in former state factory buildings","loc":"A798","img":"A798"},{"t":"12:00 - 13:00","cat":"food","name":"Brunch / cà phê trong khu 798","desc":"Brunch / café within the 798 Art District"},{"t":"","cat":"move","name":"Ra sân bay bằng xe riêng","desc":"Depart the 798 Art District for Beijing airport by private car","via":"Xe riêng"},{"t":"","cat":"flight","name":"Bay Bắc Kinh → TP.HCM (SGN)","desc":"Scheduled departure: Beijing → Ho Chi Minh City (SGN) - end of stay in China"}]}]}</script>
+<script>
+/* Snapshot of the clean page, used by "Tải bản đã sửa" */
+const SRC = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+const DATA_OPEN = '<scr' + 'ipt id="trip-data" type="application/json">';
+const DATA_CLOSE = '</scr' + 'ipt>';
+
+/* ---------- PHOTOS (Wikimedia Commons) ---------- */
+const PHOTOS = {
+  FC:['e/ef','The_Forbidden_City_-_View_from_Coal_Hill.jpg'],
+  TT:['5/5f','Temple_of_Heaven_20160323_01.jpg'],
+  SP:['d/db','Longevity_Hill_of_the_Summer_Palace.jpg'],
+  DUCK:['8/81','Peking_Duck,_2014_(02).jpg'],
+  JS:['1/19','Jingshan_park.jpg'],
+  WFJ:['d/d9','Beijing_Wangfujing_20170806.jpg'],
+  A798:['f/f3','Beijing_798_Art_District.jpg'],
+  SGN:['2/28','Tan_Son_Nhat_ramp_(08.2026).jpg'],
+  YH:['4/44','65618-Beijing-Lama-Temple_(28098480603).jpg'],
+  MTY:['f/fa','Great_Wall_of_China_July_2006.JPG'],
+  NM:['0/08','62684-Beijing-Tiananmen-Square_(28609003992).jpg'],
+  QM:['8/82','Qianmen_14_april_2010.jpg'],
+  LAKE:['4/41','Beijinglakeview.jpg'],
+  KBBQ:['6/63','Korean_BBQ_Seoul.jpg'],
+  NEST:['2/25','Beijing_China_Beijing-National-Stadium-01.jpg'],
+  PKX:['4/45','北京大兴机场航站楼,_2023-02-20_(1).jpg'],
+  HDL:['5/50','A_picture_of_Hai_Di_Lao_Hot_Pot_in_London.jpg'],
+  DSL:['8/89','Dashala_Enterance_2010.jpg'],
+  NLG:['9/95','2016-09-04_Beijing_Nanluoguxiang_anagoria_23.jpg'],
+  HOTPOT:['9/91','Hot_Pot.jpg']
+};
+const photoUrl = k => { if (!k) return ''; if (/^https?:\/\//.test(k)) return k; if(!PHOTOS[k]) return ''; const [d,f]=PHOTOS[k]; const e=encodeURIComponent(f); return `https://upload.wikimedia.org/wikipedia/commons/thumb/${d}/${e}/960px-${e}`; };
+const photoPage = k => /^https?:\/\//.test(k||'') ? k : PHOTOS[k] ? 'https://commons.wikimedia.org/wiki/File:' + encodeURIComponent(PHOTOS[k][1]) : '';
+
+/* ---------- DICTIONARY: địa điểm Bắc Kinh để nhận diện chữ Hán (ngoài lịch trình) ---------- */
+const EXTRA = [
+  ['X_TAM','Quảng trường Thiên An Môn','Thiên An Môn','天安门广场','天安门 天安门广场 Tiananmen','Tiananmen Square',39.9031,116.3976,'sight'],
+  ['X_BH','Công viên Bắc Hải','Bắc Hải','北海公园','北海 北海公园 Beihai','Beihai Park',39.9254,116.3893,'sight'],
+  ['X_GL','Gác Trống · Gác Chuông','Gác Trống','鼓楼','鼓楼 钟楼 钟鼓楼 Drum Tower Bell Tower','Drum Tower Beijing',39.9406,116.3935,'sight'],
+  ['X_YD','Phố Yandai Xiejie','Yandai Xiejie','烟袋斜街','烟袋斜街 Yandai','Yandai Xiejie',39.9398,116.3909,'sight'],
+  ['X_GWF','Cung Vương phủ','Cung Vương phủ','恭王府','恭王府 Prince Gong','Prince Gong Mansion',39.9372,116.3860,'sight'],
+  ['X_GZJ','Quốc Tử Giám · Khổng Miếu','Quốc Tử Giám','国子监','国子监 孔庙 Guozijian Confucius','Guozijian Imperial College Beijing',39.9468,116.4106,'sight'],
+  ['X_YMY','Viên Minh Viên','Viên Minh Viên','圆明园','圆明园 Yuanmingyuan Old Summer Palace','Old Summer Palace Yuanmingyuan',40.0080,116.2980,'sight'],
+  ['X_PKU','Đại học Bắc Kinh','ĐH Bắc Kinh','北京大学','北京大学 北大 Peking University','Peking University',39.9925,116.3050,'sight'],
+  ['X_THU','Đại học Thanh Hoa','ĐH Thanh Hoa','清华大学','清华大学 清华 Tsinghua','Tsinghua University',40.0000,116.3264,'sight'],
+  ['X_WC','Khối Nước (Water Cube)','Khối Nước','水立方','水立方 国家游泳中心 冰立方 Water Cube','Water Cube Beijing',39.9930,116.3887,'sight'],
+  ['X_BDL','Vạn Lý Trường Thành Bát Đạt Lĩnh','Bát Đạt Lĩnh','八达岭长城','八达岭 八达岭长城 Badaling','Badaling Great Wall',40.3597,116.0200,'sight'],
+  ['X_MSL','Thập Tam Lăng nhà Minh','Thập Tam Lăng','明十三陵','十三陵 明十三陵 Ming Tombs','Ming Tombs Beijing',40.2540,116.2210,'sight'],
+  ['X_SLT','Tam Lý Đồn','Tam Lý Đồn','三里屯','三里屯 太古里 Sanlitun','Sanlitun Taikoo Li',39.9370,116.4540,'sight'],
+  ['X_GM','Quốc Mậu (CBD)','Quốc Mậu','国贸','国贸 国贸商城 CBD Guomao','China World Mall Beijing',39.9087,116.4590,'sight'],
+  ['X_SMT','The Place (Thế Mậu Thiên Giai)','The Place','世贸天阶','世贸天阶 The Place','The Place Beijing',39.9170,116.4510,'sight'],
+  ['X_MSG','Bảo tàng Mỹ thuật Trung Quốc','BT Mỹ thuật','中国美术馆','美术馆 中国美术馆 NAMOC','National Art Museum of China',39.9235,116.4085,'sight'],
+  ['X_SDB','Bảo tàng Thủ đô','BT Thủ đô','首都博物馆','首都博物馆 Capital Museum','Capital Museum Beijing',39.9055,116.3420,'sight'],
+  ['X_XS','Công viên Hương Sơn','Hương Sơn','香山公园','香山 香山公园 Fragrant Hills','Fragrant Hills Park',39.9930,116.1880,'sight'],
+  ['X_UNI','Universal Studios Bắc Kinh','Universal Studios','北京环球影城','环球影城 环球度假区 Universal','Universal Beijing Resort',39.8560,116.6800,'sight'],
+  ['X_CYP','Công viên Triều Dương','CV Triều Dương','朝阳公园','朝阳公园 Chaoyang Park','Chaoyang Park Beijing',39.9420,116.4770,'sight'],
+  ['X_TS','Thiên Đàn · cửa Đông','Thiên Đàn cửa Đông','天坛东门','天坛东门','Tiantan East Gate',39.8826,116.4210,'sight'],
+  ['X_NSS','Khu trượt tuyết Nam Sơn (Mật Vân)','Trượt tuyết Nam Sơn','南山滑雪场','南山滑雪场 南山滑雪 滑雪 Nanshan ski','Nanshan Ski Resort Beijing',40.3260,116.8670,'sight'],
+  ['X_QB','Sân trượt tuyết trong nhà Qiaobo','Trượt tuyết Qiaobo','乔波室内滑雪馆','乔波 乔波滑雪 室内滑雪 Qiaobo','Qiaobo Indoor Ski Beijing',40.1100,116.6440,'sight'],
+  ['X_GJ','Phố ẩm thực Quỷ Nhai (Guijie)','Quỷ Nhai','簋街','簋街 Guijie Ghost Street','Guijie Ghost Street Beijing',39.9405,116.4230,'food'],
+  ['X_SJMF','Vịt quay Siji Minfu (gần Cố Cung)','Siji Minfu','四季民福烤鸭店','四季民福 四季民福烤鸭 四季民福烤鸭店 Siji Minfu','Siji Minfu Roast Duck Forbidden City',39.9160,116.4040,'food'],
+  ['X_DD','Vịt quay Da Dong','Da Dong','大董烤鸭','大董 大董烤鸭 Da Dong','Da Dong Roast Duck Beijing',39.9330,116.4340,'food'],
+  ['X_BYF','Vịt quay Bianyifang (Tiền Môn)','Bianyifang','便宜坊','便宜坊 Bianyifang','Bianyifang Roast Duck Qianmen',39.8960,116.3990,'food'],
+  ['X_HGS','Ăn vặt Huguosi','Huguosi','护国寺小吃','护国寺 护国寺小吃 Huguosi','Huguosi Snacks Beijing',39.9400,116.3750,'food'],
+  ['X_YJ','Yaoji Chaogan (gan xào)','Yaoji Chaogan','姚记炒肝店','姚记 姚记炒肝 Yaoji','Yaoji Chaogan Beijing',39.9405,116.3950,'food'],
+  ['X_PEK','Sân bay Thủ đô Bắc Kinh (PEK)','Sân bay PEK','北京首都国际机场','首都机场 首都国际机场 北京首都国际机场 PEK Capital Airport','Beijing Capital International Airport',40.0799,116.6031,'airport'],
+  ['X_BJS','Ga Bắc Kinh Nam','Ga Bắc Kinh Nam','北京南站','北京南站 Beijing South','Beijing South Railway Station',39.8650,116.3790,'airport'],
+  ['X_BJW','Ga Bắc Kinh Tây','Ga Bắc Kinh Tây','北京西站','北京西站 Beijing West','Beijing West Railway Station',39.8950,116.3220,'airport'],
+  ['X_BJ','Ga Bắc Kinh','Ga Bắc Kinh','北京站','北京站 Beijing Railway Station','Beijing Railway Station',39.9030,116.4270,'airport']
+].map(([id,name,short,zh,alias,q,lat,lng,kind])=>({id,name,short,zh,alias,q,lat,lng,kind}));
+const ALIAS = {FC:'故宫 紫禁城 故宫博物院 Forbidden City Gugong',TT:'天坛 天坛公园 Temple of Heaven Tiantan',SP:'颐和园 Summer Palace Yiheyuan',MTY:'慕田峪 慕田峪长城 长城 Great Wall Mutianyu',JS:'景山 景山公园 Jingshan Coal Hill',HH:'后海 Houhai',SCH:'什刹海 前海 Shichahai',YH:'雍和宫 Lama Temple Yonghegong',NLG:'南锣鼓巷 Nanluoguxiang',OP:'奥林匹克公园 鸟巢 国家体育场 奥林匹克森林公园 Birds Nest Olympic',NM:'国家博物馆 中国国家博物馆 国博 National Museum',WFJ:'王府井 王府井大街 Wangfujing',QM:'前门 前门大街 正阳门 Qianmen',DSL:'大栅栏 Dashilan Dashilar',A798:'798 798艺术区 798 Art',PKX:'大兴机场 大兴国际机场 北京大兴国际机场 Daxing PKX',QJD:'全聚德 Quanjude',DLS:'东来顺 Donglaishun',QF:'庆丰包子铺 庆丰 Qingfeng',HDL:'海底捞 Haidilao',MRS:'宝钞胡同 Mr Shi',KBBQ:'豆满江 Doumanjiang',WJ:'花家怡园 Hua Jia Yi Yuan',H1:'如家 如家精选 团结湖 Home Inn Tuanjiehu',H2:'阜通 望京SOHO Wei Hotel Fan Futong',HR:'虹鳟鱼 怀柔 Huairou trout',XL:'祥龙 Xianglong'};
+
+/* ---------- STATE ---------- */
+const RAW_TEXT = document.getElementById('trip-data').textContent;
+let PLACES, DAYS;
+let UID = 0; const nid = () => 's' + (++UID);
+let cur = 'all', catF = 'all', activeStop = null, activeLoc = null, hoverLoc = null;
+let UNDO = [], SAVED = '', clip = null, lastCopyText = '';
+
+function loadData(json){
+  const o = JSON.parse(json);
+  PLACES = o.places; DAYS = o.days;
+  Object.entries(ALIAS).forEach(([k,a]) => { if (PLACES[k] && !PLACES[k].alias) PLACES[k].alias = a; });
+  compute();
+}
+function compute(){
+  DAYS.forEach(d => {
+    const seen = new Map(); let n = 0, last = -1;
+    d.stops.forEach(s => {
+      if (!s.id) s.id = nid();
+      s.day = d.id; s.num = null; s.warn = false;
+      if (s.loc && !PLACES[s.loc]) s.loc = null;
+      if (s.loc && !['hotel','airport'].includes(PLACES[s.loc].kind)) { if (!seen.has(s.loc)) seen.set(s.loc, ++n); s.num = seen.get(s.loc); }
+      const m = (s.t||'').match(/^(\d{1,2}):(\d{2})/);
+      if (m) { const v = +m[1]*60 + +m[2]; if (v < last) s.warn = true; last = Math.max(last, v); }
+    });
+    d.numMap = seen;
+    d.route = [];
+    if (d.start && PLACES[d.start]) d.route.push(d.start);
+    d.stops.forEach(s => { if (s.loc && d.route[d.route.length-1] !== s.loc) d.route.push(s.loc); });
+  });
+}
+const STOP_KEYS = ['t','cat','name','zh','desc','note','via','loc','img'];
+function exportData(){
+  const used = new Set(DAYS.flatMap(d => [d.start, d.stay, ...d.stops.map(s=>s.loc)]).filter(Boolean));
+  const places = {}; Object.entries(PLACES).forEach(([k,p]) => { if (used.has(k) || !k.startsWith('X_')) places[k] = p; });
+  return { places, days: DAYS.map(d => {
+    const {numMap, route, stops, ...rest} = d;
+    return {...rest, stops: stops.map(s => { const o = {}; STOP_KEYS.forEach(k => { if (s[k] !== undefined && s[k] !== null && s[k] !== '') o[k] = s[k]; }); return o; })};
+  })};
+}
+const snapshot = () => JSON.stringify(exportData());
+function pushUndo(){ UNDO.push(snapshot()); if (UNDO.length > 40) UNDO.shift(); }
+function restore(json){ loadData(json); activeStop = null; activeLoc = null; renderAll(); }
+function undo(){
+  if (!UNDO.length) return;
+  restore(UNDO.pop()); toast('Đã hoàn tác');
+}
+const allStops = () => DAYS.flatMap(d => d.stops);
+const findStop = id => allStops().find(s => s.id === id);
+const dayOf = id => DAYS.find(d => d.stops.some(s => s.id === id));
+
+/* ---------- HELPERS ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const linkify = s => esc(s).replace(/(https?:\/\/[^\s)]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+const dayColor = id => `var(--d${id})`;
+const CAT = {
+  sight:{label:'Tham quan',icon:'<path d="M3 21h18M5 21V10m14 11V10M9 21v-6h6v6M2 10l10-6 10 6M4 10h16"/>'},
+  food:{label:'Ăn uống',icon:'<path d="M4 11h16a8 8 0 0 1-16 0zM8 7c0-1 1-1.5 1-3M12 7c0-1 1-1.5 1-3M16 7c0-1 1-1.5 1-3"/>'},
+  move:{label:'Di chuyển',icon:'<rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M8 21l1.5-4M16 21l-1.5-4M8.5 14h.01M15.5 14h.01"/>'},
+  hotel:{label:'Khách sạn',icon:'<path d="M3 19V6M3 15h18v4M21 15v-3a3 3 0 0 0-3-3h-7v6M7 11.5a1.5 1.5 0 1 0 0-.01"/>'},
+  rest:{label:'Nghỉ ngơi',icon:'<path d="M5 8h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5zM16 9h1.5a2.5 2.5 0 0 1 0 5H16M8 3v2M11 3v2"/>'},
+  flight:{label:'Chuyến bay',icon:'<path d="M2 16l20-6-2-2-7 2-5-5-2 1 3 5-5 2-2-2-1 1 3 4z"/>'}
+};
+const ico = (path, cls='') => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${path}</svg>`;
+const I = {
+  pin:'<path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/>',
+  ext:'<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+  car:'<path d="M5 17h14M6 17v2M18 17v2M4 13l2-6h12l2 6v4H4z"/>',
+  bed:'<path d="M3 19V6M3 15h18v4M21 15v-3a3 3 0 0 0-3-3h-7v6"/>',
+  arrow:'<path d="M12 5v14M6 13l6 6 6-6"/>',
+  alt:'<path d="M4 7h12l-3-3M20 17H8l3 3"/>',
+  grip:'<circle cx="9" cy="6" r="1.3"/><circle cx="15" cy="6" r="1.3"/><circle cx="9" cy="12" r="1.3"/><circle cx="15" cy="12" r="1.3"/><circle cx="9" cy="18" r="1.3"/><circle cx="15" cy="18" r="1.3"/>',
+  edit:'<path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/>',
+  copy:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  undo:'<path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/>',
+  dl:'<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
+  table:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/>',
+  reset:'<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>',
+  all:'<path d="M4 6h16M4 12h16M4 18h16"/>'
+};
+
+/* ---------- HEADER / FILTERS ---------- */
+function shortTitle(d){ const t = d.sub || d.title; return t.length > 22 ? t.split(' - ')[0] : t; }
+function updateStats(){
+  const all = allStops();
+  const sights = new Set(all.filter(s=>s.cat==='sight').map(s=>s.loc||s.name)).size;
+  const meals = all.filter(s=>s.cat==='food').length;
+  $('#stats').innerHTML = [[DAYS.length,'ngày'],[sights,'điểm tham quan'],[meals,'bữa ăn'],[all.length,'hoạt động'],[2,'khách sạn']]
+    .map(([b,s])=>`<div class="stat"><b>${b}</b><span>${s}</span></div>`).join('');
+}
+function renderChips(){
+  $('#chips').innerHTML = [`<button class="chip all" data-day="all" aria-pressed="${cur==='all'}" style="--c:var(--red)"><span class="cl"><b>Toàn hành trình</b><small>21 - 28/11</small></span></button>`]
+    .concat(DAYS.map((d,i)=>`<button class="chip" data-day="${d.id}" aria-pressed="${cur===d.id}" style="--c:${dayColor(d.id)}"><span class="sw">${i+1}</span><span class="cl"><b>${d.wds} ${d.date}</b><small>${esc(shortTitle(d))}</small></span></button>`)).join('');
+}
+function renderSeg(){
+  const ds = daysInView(); const cnt = c => ds.reduce((a,d)=>a+d.stops.filter(s=>c==='all'||s.cat===c).length,0);
+  const items = [['all','Tất cả',I.all],['sight','Tham quan',CAT.sight.icon],['food','Ăn uống',CAT.food.icon]];
+  $('#seg').innerHTML = items.map(([k,l,ic])=>`<button type="button" data-cat="${k}" aria-pressed="${catF===k}">${ico(ic)}${l}<span class="n">${cnt(k)}</span></button>`).join('');
+}
+$('#chips').addEventListener('click', e => { const b = e.target.closest('.chip'); if (b) setDay(b.dataset.day, true); });
+$('#seg').addEventListener('click', e => { const b = e.target.closest('[data-cat]'); if (b) setCat(b.dataset.cat); });
+function setTools(){
+  $('#undoBtn').innerHTML = ico(I.undo) + 'Hoàn tác';
+  $('#addBtn').innerHTML = ico(I.plus) + 'Thêm hoạt động';
+  $('#excelBtn').innerHTML = ico(I.table) + 'Copy cho Excel';
+  $('#saveBtn').innerHTML = ico(I.dl) + 'Tải bản đã sửa';
+  $('#resetBtn').innerHTML = ico(I.reset) + 'Khôi phục';
+}
+function updateDirty(){
+  const dirty = snapshot() !== SAVED;
+  $('#dirty').classList.toggle('on', dirty);
+  $('#saveBtn').classList.toggle('attn', dirty);
+  $('#undoBtn').disabled = !UNDO.length;
+  $('#resetBtn').disabled = !dirty;
+}
+window.addEventListener('beforeunload', e => { if (snapshot() !== SAVED) { e.preventDefault(); e.returnValue = ''; } });
+
+/* ---------- TIMELINE ---------- */
+const stopVisible = s => catF === 'all' || s.cat === catF;
+const daysInView = () => cur === 'all' ? DAYS : DAYS.filter(d => d.id === cur);
+const stopZh = s => s.zh || (s.loc && PLACES[s.loc] ? PLACES[s.loc].zh : '');
+
+function stopHTML(s, d){
+  const c = CAT[s.cat] || CAT.sight;
+  const loc = s.loc ? PLACES[s.loc] : null;
+  const zh = stopZh(s);
+  const isHotel = loc && loc.kind === 'hotel';
+  const node = s.num ? `<div class="node num">${s.num}</div>` : isHotel ? `<div class="node hotel">${ico(I.bed)}</div>` : `<div class="node">${ico(c.icon)}</div>`;
+  const [t1,t2] = (s.t||'').split(' - ');
+  const time = s.t ? `${t1}${t2?`<small>đến ${t2}</small>`:''}` : `<small>chưa chốt giờ</small>`;
+  const long = s.note && s.note.length > 170;
+  const note = s.note ? `<div class="note ${long?'clamp':''}"><span class="nh">PIC ghi chép</span><div class="nb">${linkify(s.note)}</div>${long?'<button class="more" type="button" data-more>Xem thêm</button>':''}</div>` : '';
+  const gq = loc ? loc.q : (zh || s.name) + ' Beijing';
+  const acts = (loc || zh) ? `<div class="actions">
+      ${loc?`<button class="btn primary" type="button" data-focus>${ico(I.pin)}Xem trên bản đồ</button>`:''}
+      <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(gq)}">${ico(I.ext)}Google Maps</a>
+      ${zh?`<a class="btn" target="_blank" rel="noopener" href="https://uri.amap.com/search?keyword=${encodeURIComponent(zh.split(' ')[0])}&city=010">${ico(I.ext)}Amap</a>
+      <button class="btn" type="button" data-driver>${ico(I.car)}Đưa tài xế xem</button>`:''}
+    </div>` : '';
+  const photo = s.img && photoUrl(s.img) ? `<button class="photo" type="button" data-photo="${esc(s.img)}" data-cap="${esc(s.name)}"><img loading="lazy" alt="${esc(s.name)}" src="${esc(photoUrl(s.img))}" onerror="this.parentNode.classList.add('fail')"><span class="src">${PHOTOS[s.img]?'Wikimedia':'Ảnh'}</span></button>` : '';
+  return `<article class="stop ${activeStop===s.id?'active':''}" id="s-${s.id}" data-id="${s.id}" ${s.loc?`data-loc="${s.loc}"`:''} style="--c:${dayColor(d.id)}">
+    <div class="time">${time}${s.warn?'<br><span class="warn" title="Giờ bắt đầu sớm hơn hoạt động trước">lệch giờ</span>':''}</div>
+    <div class="rail">${node}</div>
+    <div class="card">
+      ${s.via?`<div class="via">${ico(I.arrow)}${esc(s.via)}</div>`:''}
+      <div class="cbody">
+        <div class="ctext">
+          <div class="krow">
+            <div class="kick">${c.label}${zh?` · <span class="zh">${esc(zh)}</span>`:''}</div>
+            <div class="ctools">
+              <button class="ib" type="button" data-copy title="Sao chép (Ctrl+C)" aria-label="Sao chép">${ico(I.copy)}</button>
+              <button class="ib" type="button" data-edit title="Sửa" aria-label="Sửa">${ico(I.edit)}</button>
+              <button class="ib grip" type="button" data-grip title="Kéo để đổi vị trí / chuyển ngày" aria-label="Kéo để di chuyển">${ico(I.grip)}</button>
+            </div>
+          </div>
+          <h3>${esc(s.name)}</h3>
+          ${s.desc && s.desc !== s.name ? `<p class="desc">${esc(s.desc).replace(/\n/g,'<br>')}</p>` : ''}
+          ${note}${acts}
+        </div>
+        ${photo}
+      </div>
+    </div>
+  </article>`;
+}
+function dayHTML(d, i){
+  const stops = d.stops.filter(stopVisible);
+  if (cur==='all' && catF!=='all' && !stops.length) return '';
+  const stay = PLACES[d.stay] ? PLACES[d.stay].name : d.stay;
+  const nS = d.stops.filter(s=>s.cat==='sight').length, nF = d.stops.filter(s=>s.cat==='food').length;
+  const catLabel = catF==='sight' ? 'điểm tham quan' : 'chỗ ăn';
+  return `<section class="day" id="day-${d.id}" style="--c:${dayColor(d.id)}">
+    <div class="dayhead">
+      <div class="datebox"><b>${d.date.split('/')[0]}</b><span>${d.wds} · th11</span></div>
+      <div class="dayinfo">
+        <div class="k">Ngày ${i+1} · ${d.wd}</div>
+        <h2>${esc(d.title)}</h2>
+        <div class="meta">
+          ${nS?`<span class="pill">${ico(CAT.sight.icon)}${nS} tham quan</span>`:''}
+          ${nF?`<span class="pill">${ico(CAT.food.icon)}${nF} ăn uống</span>`:''}
+          <span class="pill">${ico(I.bed)}${esc(stay)}</span>
+          ${d.alt?`<span class="pill alt">${ico(I.alt)}${esc(d.alt)}</span>`:''}
+        </div>
+      </div>
+    </div>
+    <div class="stops">${stops.map(s=>stopHTML(s,d)).join('')}</div>
+    ${!stops.length?`<div class="empty">${catF==='all'?'Chưa có hoạt động nào.':'Ngày này không có '+catLabel+'.'}</div>`:''}
+    <button class="addrow" type="button" data-add="${d.id}" data-dropend="${d.id}">${ico(I.plus)}Thêm hoạt động vào ${d.wds} ${d.date}</button>
+    ${cur!=='all'?dayNav(i):''}
+  </section>`;
+}
+function dayNav(i){
+  const p = DAYS[i-1], n = DAYS[i+1];
+  return `<div class="daynav">
+    ${p?`<button class="btn" type="button" data-goto="${p.id}">← ${p.wds} ${p.date}</button>`:'<span></span>'}
+    <button class="btn" type="button" data-goto="all">Toàn hành trình</button>
+    ${n?`<button class="btn" type="button" data-goto="${n.id}">${n.wds} ${n.date} →</button>`:'<span></span>'}
+  </div>`;
+}
+function stripHTML(){
+  return `<h2 class="strip-title">Hành trình 8 ngày · bấm để xem từng ngày</h2>
+  <div class="strip">${DAYS.map((d,i)=>`<button class="dcard" type="button" data-goto="${d.id}" style="--c:${dayColor(d.id)}">
+    <img loading="lazy" alt="" src="${photoUrl(d.cover)}" onerror="this.style.display='none'">
+    <span class="dn">Ngày ${i+1} · ${d.wds} ${d.date}</span>
+    <span class="ov"><b>${esc(d.sub||d.title)}</b><small>${d.stops.length} hoạt động</small></span>
+  </button>`).join('')}</div>`;
+}
+let hintOpen = window.innerWidth > 1020;
+const HINT = () => `<details class="hintwrap" ${hintOpen?'open':''}><summary>Mẹo chỉnh sửa lịch trình</summary><div class="hint">
+  <span><b>Kéo</b> ${ico(I.grip,'').replace('<svg','<svg style="width:13px;height:13px;vertical-align:-2px"')} để đổi thứ tự, thả lên chip ngày phía trên để chuyển ngày</span>
+  <span><span class="kbd">Ctrl</span>+<span class="kbd">V</span> tên chữ Hán ở bất kỳ đâu để thêm nhanh</span>
+  <span>Chọn 1 thẻ rồi <span class="kbd">Ctrl</span>+<span class="kbd">C</span> / <span class="kbd">Ctrl</span>+<span class="kbd">V</span> để sao chép hoạt động</span>
+  <span><span class="kbd">Ctrl</span>+<span class="kbd">Z</span> hoàn tác</span></div></details>`;
+function renderTimeline(){
+  const list = daysInView();
+  let html = HINT() + ((cur==='all' && catF==='all') ? stripHTML() : '');
+  const body = list.map(d=>dayHTML(d, DAYS.indexOf(d))).join('');
+  html += body || `<div class="empty" style="padding-left:0">Không có hoạt động phù hợp bộ lọc.</div>`;
+  $('#timeline').innerHTML = html;
+}
+function renderAll(){ compute(); updateStats(); renderChips(); renderSeg(); renderTimeline(); updateMapHead(); drawMap(); updateDirty(); }
+
+$('#timeline').addEventListener('click', e => {
+  if (dnd && dnd.justDropped) return;
+  const go = e.target.closest('[data-goto]');
+  if (go) { setDay(go.dataset.goto, true); return; }
+  const add = e.target.closest('[data-add]');
+  if (add) { const d = DAYS.find(x=>x.id===add.dataset.add); openEditor({mode:'add', dayId:d.id, index:d.stops.length}); return; }
+  const more = e.target.closest('[data-more]');
+  if (more) { const n = more.closest('.note'); n.classList.toggle('clamp'); more.textContent = n.classList.contains('clamp') ? 'Xem thêm' : 'Thu gọn'; return; }
+  const ph = e.target.closest('[data-photo]');
+  if (ph) { openPhoto(ph.dataset.photo, ph.dataset.cap); return; }
+  if (e.target.closest('a') || e.target.closest('[data-grip]')) return;
+  const st = e.target.closest('.stop');
+  if (!st) return;
+  const s = findStop(st.dataset.id);
+  if (e.target.closest('[data-edit]')) { openEditor({mode:'edit', id:s.id}); return; }
+  if (e.target.closest('[data-copy]')) { selectStop(s.id, false, false); copyStop(s); return; }
+  if (e.target.closest('[data-driver]')) { openDriver(stopZh(s), s.loc ? PLACES[s.loc] : {name:s.name, q:''}); return; }
+  selectStop(s.id, true, !!e.target.closest('[data-focus]'));
+});
+$('#timeline').addEventListener('toggle', e => { if (e.target.matches && e.target.matches('.hintwrap')) hintOpen = e.target.open; }, true);
+$('#timeline').addEventListener('dblclick', e => { const st = e.target.closest('.stop'); if (st && !e.target.closest('button,a')) openEditor({mode:'edit', id:st.dataset.id}); });
+$('#timeline').addEventListener('mouseover', e => {
+  if (dnd) return;
+  const st = e.target.closest('.stop[data-loc]'); const loc = st ? st.dataset.loc : null;
+  if (loc !== hoverLoc) { hoverLoc = loc; drawMap(); }
+});
+$('#timeline').addEventListener('mouseleave', () => { hoverLoc = null; drawMap(); });
+
+function selectStop(id, fromList, scrollMap){
+  activeStop = id;
+  const s = findStop(id);
+  activeLoc = s && s.loc ? s.loc : null;
+  document.querySelectorAll('.stop.active').forEach(el=>el.classList.remove('active'));
+  const el = document.getElementById('s-'+id); if (el) el.classList.add('active');
+  if (activeLoc) {
+    const p = proj(PLACES[activeLoc]);
+    animateTo({cx:p[0], cy:p[1], s:Math.max(view.s, cur==='all'?22:view.s)});
+    if (scrollMap && window.innerWidth <= 1020) $('#mapcard').scrollIntoView({behavior:'smooth', block:'start'});
+  } else drawMap();
+}
+function flashStop(id){
+  const el = document.getElementById('s-'+id); if (!el) return;
+  el.scrollIntoView({behavior:'smooth', block:'center'});
+  el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'), 1500);
+}
+
+/* ---------- DRAG & DROP ---------- */
+let dnd = null;
+const ghost = document.createElement('div'); ghost.className = 'ghost';
+const dropline = $('#dropline');
+$('#timeline').addEventListener('pointerdown', e => {
+  const g = e.target.closest('[data-grip]'); if (!g || e.button > 0) return;
+  e.preventDefault();
+  const st = g.closest('.stop'); const s = findStop(st.dataset.id);
+  dnd = {id:s.id, x:e.clientX, y:e.clientY, x0:e.clientX, y0:e.clientY, started:false, slot:null, el:st};
+  try { g.setPointerCapture(e.pointerId); } catch(err){}
+  window.addEventListener('pointermove', dndMove);
+  window.addEventListener('pointerup', dndUp);
+  window.addEventListener('pointercancel', dndCancel);
+});
+function dndStart(){
+  const s = findStop(dnd.id);
+  dnd.started = true;
+  dnd.el.classList.add('drag-src');
+  document.body.classList.add('dnd');
+  ghost.style.setProperty('--c', dayColor(s.day));
+  ghost.innerHTML = `<b>${esc(s.name)}</b><small>${esc(s.t||'chưa chốt giờ')} · ${DAYS.find(d=>d.id===s.day).date} · thả lên chip ngày để chuyển ngày</small>`;
+  document.body.appendChild(ghost);
+  hideTip();
+  dnd.raf = requestAnimationFrame(autoScroll);
+}
+function dndMove(e){
+  if (!dnd) return;
+  dnd.x = e.clientX; dnd.y = e.clientY;
+  if (!dnd.started) { if (Math.abs(e.clientX - dnd.x0) + Math.abs(e.clientY - dnd.y0) < 6) return; dndStart(); }
+  ghost.style.left = e.clientX + 'px'; ghost.style.top = e.clientY + 'px';
+  updateSlot();
+}
+function updateSlot(){
+  document.querySelectorAll('.chip.drop-hover').forEach(c=>c.classList.remove('drop-hover'));
+  const under = document.elementFromPoint(dnd.x, dnd.y);
+  const chip = under && under.closest && under.closest('.chip[data-day]');
+  if (chip && chip.dataset.day !== 'all') {
+    chip.classList.add('drop-hover');
+    dnd.slot = {day:chip.dataset.day, before:null, chip:true};
+    dropline.style.display = 'none';
+    return;
+  }
+  const els = [...document.querySelectorAll('#timeline .stop:not(.drag-src), #timeline [data-dropend]')];
+  if (!els.length) { dnd.slot = null; return; }
+  let target = null;
+  for (const el of els) { const r = el.getBoundingClientRect(); if (dnd.y < r.top + r.height/2) { target = el; break; } }
+  if (!target) target = els[els.length-1];
+  const r = target.getBoundingClientRect();
+  const tl = $('#timeline').getBoundingClientRect();
+  if (target.matches('.stop')) dnd.slot = {day: findStop(target.dataset.id).day, before: target.dataset.id};
+  else dnd.slot = {day: target.dataset.dropend, before: null};
+  const card = target.matches('.stop') ? target.querySelector('.card').getBoundingClientRect() : r;
+  dropline.style.display = 'block';
+  dropline.style.left = card.left + 'px';
+  dropline.style.width = Math.max(120, Math.min(card.width, tl.right - card.left)) + 'px';
+  dropline.style.top = (r.top - (target.matches('.stop') ? 0 : 6)) + 'px';
+}
+function autoScroll(){
+  if (!dnd || !dnd.started) return;
+  const edge = 90; let v = 0;
+  if (dnd.y < edge + 40) v = -Math.ceil((edge + 40 - dnd.y) / 6);
+  else if (dnd.y > innerHeight - edge) v = Math.ceil((dnd.y - innerHeight + edge) / 6);
+  if (v) { window.scrollBy(0, v); updateSlot(); }
+  dnd.raf = requestAnimationFrame(autoScroll);
+}
+function dndCleanup(){
+  cancelAnimationFrame(dnd && dnd.raf);
+  window.removeEventListener('pointermove', dndMove);
+  window.removeEventListener('pointerup', dndUp);
+  window.removeEventListener('pointercancel', dndCancel);
+  ghost.remove(); dropline.style.display = 'none';
+  document.body.classList.remove('dnd');
+  document.querySelectorAll('.chip.drop-hover').forEach(c=>c.classList.remove('drop-hover'));
+  document.querySelectorAll('.drag-src').forEach(c=>c.classList.remove('drag-src'));
+}
+function dndCancel(){ dndCleanup(); dnd = null; }
+function dndUp(){
+  const d = dnd; dndCleanup();
+  if (!d.started || !d.slot) { dnd = null; return; }
+  dnd = {justDropped:true}; setTimeout(()=>{ dnd = null; }, 50);
+  moveStop(d.id, d.slot.day, d.slot.before, d.slot.chip);
+}
+function moveStop(id, toDay, beforeId, viaChip){
+  const before = snapshot();
+  const from = dayOf(id); const i = from.stops.findIndex(s=>s.id===id); const [s] = from.stops.splice(i,1);
+  const to = DAYS.find(x=>x.id===toDay);
+  let j = beforeId ? to.stops.findIndex(x=>x.id===beforeId) : to.stops.length; if (j < 0) j = to.stops.length;
+  to.stops.splice(j, 0, s);
+  compute();
+  if (snapshot() === before) { renderAll(); return; }
+  UNDO.push(before);
+  activeStop = s.id; activeLoc = s.loc || null;
+  if (viaChip && cur !== 'all') { setDay(toDay, false); }
+  renderAll(); flashStop(s.id);
+  toast(from.id===to.id ? `Đã đổi vị trí "${s.name}"` : `Đã chuyển "${s.name}" sang ${to.wds} ${to.date}`, 'Hoàn tác', undo);
+}
+
+/* ---------- COPY / PASTE ---------- */
+async function writeClip(text){
+  try { await navigator.clipboard.writeText(text); return true; }
+  catch(e){ const ta = document.createElement('textarea'); ta.value = text; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); let ok=false; try{ ok = document.execCommand('copy'); }catch(err){} ta.remove(); return ok; }
+}
+function stopPayload(s){ const o = {}; STOP_KEYS.forEach(k => { if (s[k]) o[k] = s[k]; }); return o; }
+function copyStop(s){
+  clip = stopPayload(s);
+  const loc = s.loc && PLACES[s.loc];
+  lastCopyText = [s.t, s.name, stopZh(s), loc ? loc.q : ''].filter(Boolean).join('\n');
+  writeClip(lastCopyText);
+  toast(`Đã sao chép "${s.name}" · chọn thẻ khác rồi Ctrl+V để dán ngay sau nó`);
+}
+function insertTarget(){
+  if (activeStop) { const d = dayOf(activeStop); if (d) return {dayId:d.id, index:d.stops.findIndex(s=>s.id===activeStop)+1}; }
+  const d = cur !== 'all' ? DAYS.find(x=>x.id===cur) : DAYS[1];
+  return {dayId:d.id, index:d.stops.length};
+}
+function pasteClip(target){
+  if (!clip) return;
+  const t = target || insertTarget();
+  pushUndo();
+  const d = DAYS.find(x=>x.id===t.dayId);
+  const s = {...JSON.parse(JSON.stringify(clip)), id:nid()};
+  d.stops.splice(t.index, 0, s);
+  activeStop = s.id; activeLoc = s.loc || null;
+  renderAll(); flashStop(s.id);
+  toast(`Đã dán "${s.name}" vào ${d.wds} ${d.date}`, 'Hoàn tác', undo);
+}
+const inField = el => el && el.closest && el.closest('input,textarea,select,[contenteditable="true"]');
+document.addEventListener('paste', e => {
+  if (inField(e.target) || $('#editOv').classList.contains('on') || $('#overlay').classList.contains('on')) return;
+  const text = (e.clipboardData && e.clipboardData.getData('text/plain')) || '';
+  if (!text.trim()) return;
+  e.preventDefault();
+  if (clip && text.trim() === lastCopyText.trim()) { pasteClip(); return; }
+  openEditor({mode:'add', ...insertTarget()}, text);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { if (picking) endPick(true); closeOv(); closeEditor(); return; }
+  if (inField(e.target) || $('#editOv').classList.contains('on')) return;
+  const mod = e.ctrlKey || e.metaKey;
+  if (mod && e.key.toLowerCase() === 'z') { e.preventDefault(); undo(); }
+  else if (mod && e.key.toLowerCase() === 'c' && activeStop && !String(window.getSelection())) { e.preventDefault(); copyStop(findStop(activeStop)); }
+  else if ((e.key === 'Delete') && activeStop) { deleteStop(activeStop); }
+});
+
+/* ---------- EXCEL / DOWNLOAD / RESET ---------- */
+function toTSV(){
+  const q = v => { v = String(v ?? ''); return /[\t\n"]/.test(v) ? '"' + v.replace(/"/g,'""') + '"' : v; };
+  const rows = [['Ngày','Cắt nghĩa','Mấy giờ?','Dzụ gì vậy?','PIC ghi chép']];
+  DAYS.forEach(d => d.stops.forEach((s,i) => rows.push([i?'':d.date, i?'':d.title, s.t||'', s.desc||s.name, [s.via?('Cách đi: '+s.via):'', s.note||''].filter(Boolean).join('\n')])));
+  return rows.map(r => r.map(q).join('\t')).join('\n');
+}
+$('#excelBtn').onclick = async () => {
+  const ok = await writeClip(toTSV());
+  toast(ok ? 'Đã copy lịch trình dạng bảng (5 cột A-E) · dán vào Excel bằng Ctrl+V' : 'Trình duyệt chặn clipboard, hãy thử lại');
+};
+$('#saveBtn').onclick = () => {
+  const json = JSON.stringify(exportData()).replace(/</g,'\\u003c');
+  const i = SRC.indexOf(DATA_OPEN) + DATA_OPEN.length; const j = SRC.indexOf(DATA_CLOSE, i);
+  const out = SRC.slice(0, i) + json + SRC.slice(j);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([out], {type:'text/html'}));
+  a.download = 'beijing-trip-2026-da-sua.html';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+  SAVED = snapshot(); updateDirty();
+  toast('Đã tải file "beijing-trip-2026-da-sua.html" · mở file này để xem bản mới');
+};
+$('#resetBtn').onclick = () => { pushUndo(); restore(RAW_TEXT); toast('Đã khôi phục lịch trình lúc mở file', 'Hoàn tác', undo); };
+$('#undoBtn').onclick = undo;
+$('#addBtn').onclick = () => openEditor({mode:'add', ...insertTarget()});
+
+/* ---------- RECOGNITION ---------- */
+const CJK_RE = /[㐀-鿿豈-﫿]+/g;
+const hasCJK = s => /[㐀-鿿]/.test(s||'');
+const norm = s => String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D').toLowerCase();
+function bigramSim(a,b){ const bg=s=>{const o=new Set(); for(let i=0;i<s.length-1;i++) o.add(s.slice(i,i+2)); return o;}; const A=bg(a),B=bg(b); if(!A.size||!B.size) return 0; let n=0; A.forEach(x=>{ if(B.has(x)) n++; }); return n >= 2 ? n/Math.min(A.size,B.size) : 0; }
+function placePool(){
+  const out = Object.entries(PLACES).map(([id,p]) => ({...p, id, src:'data'}));
+  EXTRA.forEach(p => { if (!PLACES[p.id]) out.push({...p, src:'dict'}); });
+  return out;
+}
+function parseShare(text){
+  const t = text.replace(/https?:\/\/\S+/g,' ');
+  let name = '';
+  const br = t.match(/【[^】]*】\s*([^\n\r，,。]+)/);
+  if (br) name = (br[1].match(CJK_RE)||[]).length ? br[1].trim() : '';
+  const addrM = t.match(/地址[:：]\s*([^\n\r]+)/);
+  const addr = addrM ? addrM[1].trim() : '';
+  if (!name) { const t2 = addrM ? t.replace(addrM[0],' ') : t; const runs = (t2.match(CJK_RE)||[]).filter(r=>!/^(高德地图|大众点评|百度地图|美团|地址|电话)$/.test(r)); name = runs.sort((a,b)=>b.length-a.length)[0] || ''; }
+  name = name.replace(/^(高德地图|大众点评|百度地图)/,'').trim();
+  return {name, addr};
+}
+function guessCat(s){
+  if (/酒店|宾馆|旅馆|民宿|如家|汉庭|全季|亚朵/.test(s)) return 'hotel';
+  if (/机场|火车站|南站|西站|北站|地铁站/.test(s)) return 'move';
+  if (/餐|饭|酒楼|烤|锅|涮|包子|饺|面馆|小吃|咖啡|茶|食|串|鸭|炒肝|卤煮/.test(s)) return 'food';
+  if (/公园|寺|宫|庙|博物馆|美术馆|长城|广场|胡同|塔|陵|景区|故居|艺术区|山|湖|海|滑雪|大学|门$/.test(s)) return 'sight';
+  if (/馆|店|厅|面|粉/.test(s)) return 'food';
+  return 'sight';
+}
+function recognize(text){
+  const raw = (text||'').trim(); if (!raw) return {cands:[], share:{name:'',addr:''}};
+  const share = parseShare(raw);
+  const t = raw.replace(/地址[:：][^\n\r]*/g,' ').replace(/北京市|北京/g, m => /北京(站|南站|西站|大学|首都|大兴|环球)/.test(raw) ? m : ' ');
+  const runs = t.match(CJK_RE) || [];
+  const latin = norm(t.replace(/https?:\/\/\S+/g,' ')).replace(/[㐀-鿿]/g,' ').replace(/[^a-z0-9' ]+/g,' ').replace(/\s+/g,' ').trim();
+  const res = [];
+  for (const p of placePool()) {
+    const keys = [...String(p.zh||'').split(/\s+/), ...String(p.alias||'').split(/\s+/)].filter(hasCJK);
+    let sc = 0;
+    for (const k of keys) {
+      if (t.includes(k)) sc = Math.max(sc, 30 + k.length*10);
+      for (const r of runs) {
+        if (r.length < 2) continue;
+        if (k.includes(r)) sc = Math.max(sc, 15 + r.length*8);
+        else { const sim = bigramSim(r,k); if (sim >= .5) sc = Math.max(sc, sim*35); }
+      }
+    }
+    if (latin.length >= 3) {
+      const hay = norm([p.name, p.short, p.q, p.alias].join(' | '));
+      if (hay.includes(latin)) sc = Math.max(sc, 30 + latin.length);
+      else { const ws = latin.split(' ').filter(w=>w.length>=4); const hit = ws.filter(w=>hay.includes(w)).length; if (hit) sc = Math.max(sc, 10*hit/ws.length + hit*6); }
+    }
+    if (sc > 8) res.push({p, sc});
+  }
+  res.sort((a,b)=>b.sc-a.sc);
+  return {cands: res.slice(0,5), share};
+}
+
+/* ---------- EDITOR ---------- */
+let draft = null;
+const F = id => document.getElementById(id);
+const kindFromCat = c => c==='food' ? 'food' : c==='hotel' ? 'hotel' : c==='sight' ? 'sight' : 'other';
+F('fCat').innerHTML = Object.entries(CAT).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('');
+function toHM(x){ const m = (x||'').trim().match(/^(\d{1,2}):(\d{2})$/); return m ? m[1].padStart(2,'0') + ':' + m[2] : ''; }
+function openEditor(opts, pasted){
+  closeOv();
+  draft = {mode:opts.mode, id:opts.id||null, dayId:opts.dayId, index:opts.index, loc:null, extra:null, newPlace:null, auto:{}};
+  F('fDay').innerHTML = DAYS.map(d=>`<option value="${d.id}">${d.wds} ${d.date} · ${esc(d.sub||d.title)}</option>`).join('');
+  ['fStart','fEnd','fName','fZh','fVia','fDesc','fNote','fImg','pasteBox'].forEach(k=>F(k).value='');
+  F('fCat').value = catF==='food' ? 'food' : 'sight';
+  if (opts.mode === 'edit') {
+    const s = findStop(opts.id); const d = dayOf(opts.id);
+    draft.dayId = d.id; draft.loc = s.loc || null;
+    const [a,b] = (s.t||'').split(' - ');
+    F('fStart').value = toHM(a); F('fEnd').value = toHM(b);
+    F('fName').value = s.name||''; F('fZh').value = stopZh(s); F('fCat').value = s.cat||'sight';
+    F('fVia').value = s.via||''; F('fDesc').value = s.desc||''; F('fNote').value = s.note||''; F('fImg').value = s.img && !PHOTOS[s.img] ? s.img : '';
+    draft.imgKey = PHOTOS[s.img] ? s.img : null;
+    if (s.t && (!toHM(a) || (b && !toHM(b)))) draft.rawTime = s.t;
+  }
+  F('fDay').value = draft.dayId;
+  F('dlgTitle').textContent = opts.mode === 'edit' ? 'Sửa hoạt động' : 'Thêm hoạt động';
+  F('delBtn').hidden = F('dupBtn').hidden = opts.mode !== 'edit';
+  F('pasteStopBtn').hidden = !clip || opts.mode === 'edit';
+  F('editOv').classList.add('on'); F('editOv').classList.remove('min');
+  document.body.style.overflow = 'hidden';
+  if (pasted) { F('pasteBox').value = pasted; runRecog(true); }
+  else { renderCands([]); F('recogNote').textContent = 'Hỗ trợ chữ Hán giản thể, tin chia sẻ từ Amap/Dianping/WeChat, tên tiếng Việt hoặc tiếng Anh.'; }
+  updateLocBox();
+  setTimeout(()=> (pasted ? F('fName') : F('pasteBox')).focus({preventScroll:true}), 30);
+}
+function closeEditor(){ if (!F('editOv').classList.contains('on')) return; F('editOv').classList.remove('on','min'); document.body.style.overflow = ''; draft = null; if (picking) endPick(true); drawMap(); }
+F('editOv').addEventListener('click', e => { if (e.target === F('editOv') || e.target.closest('[data-close]')) closeEditor(); });
+let lastRecog = null;
+function runRecog(autoApply){
+  const text = F('pasteBox').value;
+  const r = recognize(text); lastRecog = r;
+  const items = r.cands.map((c,i)=>({type:'place', c, i}));
+  const top = r.cands[0];
+  const second = r.cands[1];
+  const strongMatch = top && top.sc >= 40 && (!second || top.sc - second.sc >= 8);
+  if (r.share.name && !(top && top.p.zh.split(' ').some(z=>z===r.share.name))) items.push({type:'new', name:r.share.name, addr:r.share.addr});
+  renderCands(items);
+  if (!text.trim()) F('recogNote').textContent = '';
+  else if (!items.length) F('recogNote').textContent = 'Chưa nhận diện được. Hãy dán tên chữ Hán (VD: 南锣鼓巷) hoặc tự điền bên dưới.';
+  else F('recogNote').textContent = strongMatch ? 'Đã nhận diện, bấm để chọn kết quả khác nếu chưa đúng.' : 'Chọn một gợi ý, hoặc tạo địa điểm mới rồi ghim trên bản đồ.';
+  if (autoApply) { if (strongMatch) applyPlace(top.p, 0); else if (r.share.name && (!top || top.sc < 30)) applyNew(r.share.name, r.share.addr, items.length-1); }
+}
+function renderCands(items){
+  F('cands').innerHTML = items.map((it,k)=> it.type==='place'
+    ? `<button type="button" class="cand" data-k="${k}"><span class="tag ${it.c.p.kind}">${({sight:'Tham quan',food:'Ăn uống',hotel:'Khách sạn',airport:'Sân bay/Ga'})[it.c.p.kind]||'Địa điểm'}</span><span class="cn"><b>${esc(it.c.p.name)}</b><small>${it.c.p.src==='data'?(placeUsed(it.c.p.id)?'Đã có trong lịch trình':'Địa điểm có sẵn'):'Từ điển Bắc Kinh'}</small></span><span class="zh">${esc(String(it.c.p.zh).split(' ')[0])}</span></button>`
+    : `<button type="button" class="cand" data-k="${k}"><span class="tag new">Mới</span><span class="cn"><b>Tạo địa điểm mới: <span class="zh">${esc(it.name)}</span></b><small>${it.addr?esc(it.addr)+' · ':''}Loại đoán: ${CAT[guessCat(it.name+it.addr)].label} · ghim trên bản đồ sau</small></span></button>`).join('');
+  F('cands')._items = items;
+}
+const placeUsed = id => allStops().some(s=>s.loc===id);
+F('cands').addEventListener('click', e => {
+  const b = e.target.closest('.cand'); if (!b) return;
+  const it = F('cands')._items[+b.dataset.k];
+  if (it.type==='place') applyPlace(it.c.p, +b.dataset.k); else applyNew(it.name, it.addr, +b.dataset.k);
+});
+function markSel(k){ document.querySelectorAll('.cand').forEach((c,i)=>c.classList.toggle('sel', i===k)); }
+function setAuto(id, val){ const el = F(id); if (!el.value || el.value === draft.auto[id]) { el.value = val; draft.auto[id] = val; } }
+function applyPlace(p, k){
+  draft.loc = p.id; draft.extra = p.src === 'dict' ? p : null; draft.newPlace = null;
+  setAuto('fName', p.name); setAuto('fZh', String(p.zh).split(' ')[0]);
+  const cat = p.kind==='food'?'food':p.kind==='hotel'?'hotel':p.kind==='airport'?'move':'sight';
+  if (F('fCat').value === draft.auto.fCat || !draft.auto.fCatTouched) { F('fCat').value = cat; draft.auto.fCat = cat; }
+  markSel(k ?? 0); updateLocBox(); drawMap();
+}
+function applyNew(name, addr, k){
+  draft.loc = null; draft.extra = null;
+  setAuto('fZh', name); setAuto('fName', name);
+  if (addr) setAuto('fNote', 'Địa chỉ: ' + addr);
+  const cat = guessCat(name + addr);
+  if (!draft.auto.fCatTouched) { F('fCat').value = cat === 'move' ? 'move' : cat; draft.auto.fCat = F('fCat').value; }
+  markSel(k ?? -1); updateLocBox(); drawMap();
+}
+F('fCat').addEventListener('change', () => { draft.auto.fCatTouched = true; });
+let recogT; F('pasteBox').addEventListener('input', () => { clearTimeout(recogT); recogT = setTimeout(()=>runRecog(false), 180); });
+F('pasteBox').addEventListener('paste', () => setTimeout(()=>runRecog(true), 0));
+F('readClip').onclick = async () => {
+  try { const t = await navigator.clipboard.readText(); if (t) { F('pasteBox').value = t; runRecog(true); } }
+  catch(e){ toast('Trình duyệt chưa cho đọc clipboard · hãy bấm vào ô và nhấn Ctrl+V'); F('pasteBox').focus(); }
+};
+F('pasteStopBtn').onclick = () => { const t = {dayId:F('fDay').value, index: F('fDay').value===draft.dayId ? draft.index : DAYS.find(d=>d.id===F('fDay').value).stops.length}; closeEditor(); pasteClip(t); };
+function updateLocBox(){
+  if (!draft) return;
+  let html, on = true;
+  if (draft.newPlace) html = `<b>Vị trí tự ghim</b><small>${draft.newPlace.lat.toFixed(4)}, ${draft.newPlace.lng.toFixed(4)} · sẽ tạo địa điểm mới khi lưu</small>`;
+  else if (draft.extra) html = `<b>${esc(draft.extra.name)}</b><small class="zh">${esc(String(draft.extra.zh).split(' ')[0])}</small><small> · từ từ điển Bắc Kinh</small>`;
+  else if (draft.loc && PLACES[draft.loc]) html = `<b>${esc(PLACES[draft.loc].name)}</b><small class="zh">${esc(String(PLACES[draft.loc].zh).split(' ')[0])}</small>`;
+  else { on = false; html = `<b>Chưa ghim</b><small>Hoạt động vẫn hiện trong lịch trình nhưng không có trên bản đồ</small>`; }
+  F('locSt').innerHTML = html; F('locDot').classList.toggle('on', on);
+  F('unpinBtn').disabled = !on;
+}
+F('unpinBtn').onclick = () => { draft.loc = null; draft.extra = null; draft.newPlace = null; markSel(-1); updateLocBox(); drawMap(); };
+F('pickBtn').onclick = () => startPick();
+F('dlg').addEventListener('submit', e => { e.preventDefault(); saveDraft(); });
+function saveDraft(){
+  const name = F('fName').value.trim(); if (!name) { F('fName').focus(); return; }
+  const zh = F('fZh').value.trim(), cat = F('fCat').value;
+  const st = F('fStart').value, en = F('fEnd').value;
+  let t = st ? (en ? `${st} - ${en}` : st) : '';
+  if (draft.rawTime && !st && !en) t = draft.rawTime;
+  pushUndo();
+  let loc = draft.loc;
+  if (draft.extra) { const {src, id, ...p} = draft.extra; PLACES[id] = p; loc = id; }
+  if (draft.newPlace) {
+    loc = 'C' + Date.now().toString(36);
+    PLACES[loc] = {name, short: name.length > 22 ? name.slice(0,21)+'…' : name, zh: zh || '', q: zh || (name + ' Beijing'), lat:+draft.newPlace.lat.toFixed(5), lng:+draft.newPlace.lng.toFixed(5), kind: kindFromCat(cat)};
+  }
+  const stop = {t, cat, name, desc:F('fDesc').value.trim(), note:F('fNote').value.trim(), via:F('fVia').value.trim(), loc: loc || '', img: F('fImg').value.trim() || draft.imgKey || ''};
+  if (zh && (!loc || String(PLACES[loc].zh).split(' ')[0] !== zh)) stop.zh = zh; else stop.zh = '';
+  const dayId = F('fDay').value;
+  let s;
+  if (draft.mode === 'edit') {
+    s = findStop(draft.id); const from = dayOf(draft.id);
+    STOP_KEYS.forEach(k => { if (stop[k]) s[k] = stop[k]; else delete s[k]; });
+    if (from.id !== dayId) { from.stops.splice(from.stops.indexOf(s),1); DAYS.find(d=>d.id===dayId).stops.push(s); }
+  } else {
+    s = {id:nid()}; STOP_KEYS.forEach(k => { if (stop[k]) s[k] = stop[k]; });
+    const d = DAYS.find(x=>x.id===dayId);
+    const idx = dayId === draft.dayId ? Math.min(draft.index, d.stops.length) : d.stops.length;
+    d.stops.splice(idx, 0, s);
+  }
+  const mode = draft.mode;
+  closeEditor();
+  activeStop = s.id; activeLoc = s.loc || null;
+  if (!stopVisible(s)) catF = 'all';
+  if (cur !== 'all' && cur !== dayId) cur = dayId;
+  renderAll();
+  if (s.loc) { const p = proj(PLACES[s.loc]); animateTo({cx:p[0], cy:p[1], s:Math.max(view.s, 18)}); }
+  flashStop(s.id);
+  toast(mode==='edit' ? `Đã lưu "${s.name}"` : `Đã thêm "${s.name}"`, 'Hoàn tác', undo);
+}
+function deleteStop(id){
+  const s = findStop(id); if (!s) return;
+  pushUndo(); const d = dayOf(id); d.stops.splice(d.stops.indexOf(s),1);
+  if (activeStop === id) { activeStop = null; activeLoc = null; }
+  renderAll(); toast(`Đã xóa "${s.name}"`, 'Hoàn tác', undo);
+}
+F('delBtn').onclick = () => { const id = draft.id; closeEditor(); deleteStop(id); };
+F('dupBtn').onclick = () => {
+  const id = draft.id; closeEditor();
+  const s = findStop(id); const d = dayOf(id); pushUndo();
+  const c = {...stopPayload(s), id:nid()}; d.stops.splice(d.stops.indexOf(s)+1, 0, c);
+  activeStop = c.id; renderAll(); flashStop(c.id); toast(`Đã nhân bản "${s.name}"`, 'Hoàn tác', undo);
+};
+
+/* map picking */
+let picking = false;
+function startPick(){
+  picking = true; F('editOv').classList.add('min'); document.body.style.overflow = '';
+  $('#mapcard').classList.add('picking');
+  $('#mapcard').scrollIntoView({behavior:'smooth', block:'center'});
+}
+function endPick(cancel){
+  picking = false; $('#mapcard').classList.remove('picking');
+  if (draft) { F('editOv').classList.remove('min'); document.body.style.overflow = 'hidden'; updateLocBox(); }
+  drawMap();
+}
+$('#pickCancel').onclick = () => endPick(true);
+function pickAt(mx, my, locKey){
+  if (locKey && PLACES[locKey]) { applyPlace({...PLACES[locKey], id:locKey, src:'data'}, -1); }
+  else {
+    const wx = view.cx + (mx - W/2)/view.s, wy = view.cy + (my - H/2)/view.s;
+    draft.newPlace = {lat: LAT0 - wy/KY, lng: wx/KX + LNG0}; draft.loc = null; draft.extra = null; markSel(-1);
+  }
+  endPick(false);
+}
+
+/* ---------- TOAST ---------- */
+let toastT;
+function toast(msg, act, fn){
+  $('#toastMsg').textContent = msg;
+  const b = $('#toastAct'); b.hidden = !act; if (act) { b.textContent = act; b.onclick = () => { $('#toast').classList.remove('on'); fn(); }; }
+  $('#toast').classList.add('on'); clearTimeout(toastT); toastT = setTimeout(()=>$('#toast').classList.remove('on'), act ? 6000 : 3500);
+}
+
+/* ---------- MAP ---------- */
+const svg = $('#map');
+const LAT0 = 39.92, LNG0 = 116.40, KX = 85.4, KY = 111.0;
+const proj = ({lat,lng}) => [(lng-LNG0)*KX, (LAT0-lat)*KY];
+let view = {cx:0, cy:0, s:10};
+let W = 600, H = 600;
+const toScr = ([x,y]) => [W/2 + (x-view.cx)*view.s, H/2 + (y-view.cy)*view.s];
+const P = (lat,lng) => toScr(proj({lat,lng}));
+const RINGS = [['Vành đai 2',39.868,116.355,39.950,116.435],['Vành đai 3',39.853,116.307,39.968,116.462],['Vành đai 4',39.835,116.275,39.985,116.488],['Vành đai 5',39.765,116.205,40.022,116.545]];
+const LAKES = [[39.990,116.270,.85,1.15,0],[39.9440,116.3808,.55,.17,-28],[39.9396,116.3878,.42,.14,-40],[39.9478,116.3735,.25,.12,-20],[39.9258,116.3885,.33,.55,0],[39.9120,116.3840,.22,.62,0]];
+const PARKS = [[39.8765,116.400,39.8885,116.418],[39.9233,116.3938,39.9277,116.3990],[39.998,116.375,40.030,116.402],[39.934,116.468,39.950,116.486],[39.980,116.258,40.006,116.286]];
+const WALL = [[40.441,116.540],[40.436,116.551],[40.439,116.561],[40.433,116.570],[40.437,116.580],[40.431,116.592],[40.435,116.604]];
+function rrect(a,b,rad){ const [x1,y1]=a,[x2,y2]=b; const r=Math.min(rad,Math.abs(x2-x1)/2,Math.abs(y2-y1)/2); return `M${x1+r} ${y1}H${x2-r}Q${x2} ${y1} ${x2} ${y1+r}V${y2-r}Q${x2} ${y2} ${x2-r} ${y2}H${x1+r}Q${x1} ${y2} ${x1} ${y2-r}V${y1+r}Q${x1} ${y1} ${x1+r} ${y1}Z`; }
+function visibleLocs(){
+  const set = new Set();
+  daysInView().forEach(d => {
+    if (catF === 'all') d.route.forEach(k => set.add(k));
+    else { d.stops.forEach(s => { if (s.loc && (stopVisible(s) || PLACES[s.loc].kind === 'hotel')) set.add(s.loc); }); if (d.start && PLACES[d.start] && PLACES[d.start].kind === 'hotel') set.add(d.start); }
+  });
+  return [...set];
+}
+function locDayColor(k){
+  if (cur!=='all') return dayColor(cur);
+  const d = DAYS.find(d=>d.numMap.has(k)) || DAYS.find(d=>d.route.includes(k));
+  return d ? dayColor(d.id) : 'var(--muted)';
+}
+function drawMap(){
+  const r = svg.getBoundingClientRect(); W = r.width; H = r.height;
+  if (!W || !H) return;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  let o = '';
+  PARKS.forEach(([s,w,n,e]) => { const a=P(n,w), b=P(s,e); o += `<path class="m-park" d="${rrect(a,b,6)}"/>`; });
+  LAKES.forEach(([lat,lng,rx,ry,rot]) => { const [x,y]=P(lat,lng); o += `<ellipse class="m-water" cx="${x}" cy="${y}" rx="${rx*view.s}" ry="${ry*view.s}" transform="rotate(${rot} ${x} ${y})"/>`; });
+  { const a=P(39.9245,116.3915), b=P(39.9135,116.4032); o += `<rect class="m-palace" x="${a[0]}" y="${a[1]}" width="${b[0]-a[0]}" height="${b[1]-a[1]}" rx="2"/>`; }
+  RINGS.forEach(([name,s,w,n,e],i) => { const a=P(n,w), b=P(s,e); o += `<path class="m-ring" d="${rrect(a,b,(i+1)*0.9*view.s)}"/>`; if (view.s>5 && view.s<80) o += `<text class="m-ring-l" x="${b[0]-4}" y="${a[1]-4}" text-anchor="end">${name}</text>`; });
+  { const a=P(39.9075,116.27), b=P(39.9075,116.53); o += `<path class="m-road" d="M${a[0]} ${a[1]}H${b[0]}"/>`; if (view.s>14) { const t=P(39.9075,116.33); o += `<text class="m-area" x="${t[0]}" y="${t[1]-6}">Trường An Nhai</text>`; } }
+  { const a=P(39.866,116.3972), b=P(40.012,116.3972); o += `<path class="m-axis" d="M${a[0]} ${a[1]}V${b[1]}"/>`; }
+  { const a=P(39.866,116.40), b=P(39.70,116.405), c=P(39.53,116.41); o += `<path class="m-hw" d="M${a[0]} ${a[1]}L${b[0]} ${b[1]}L${c[0]} ${c[1]}"/>`; }
+  { const pts=[[39.985,116.47],[40.12,116.52],[40.32,116.62],[40.415,116.575]].map(p=>P(...p)); o += `<path class="m-hw" d="M${pts.map(p=>p.join(' ')).join('L')}"/>`; }
+  o += `<path class="m-wall" d="M${WALL.map(p=>P(...p).join(' ')).join('L')}"/>`;
+  if (view.s < 9) { const t=P(39.92,116.40); o += `<text class="m-area" x="${t[0]+18}" y="${t[1]+30}">Trung tâm Bắc Kinh</text>`; }
+
+  daysInView().forEach(d => {
+    const pts = d.route.map(k=>toScr(proj(PLACES[k])));
+    let path = '';
+    for (let i=1;i<pts.length;i++){ const [x1,y1]=pts[i-1],[x2,y2]=pts[i]; const dx=x2-x1, dy=y2-y1; const cx=(x1+x2)/2 - dy*.16, cy=(y1+y2)/2 + dx*.16; path += `M${x1} ${y1}Q${cx} ${cy} ${x2} ${y2}`; }
+    if (!path) return;
+    const w = cur==='all' ? 2.5 : 3.5;
+    if (catF === 'all') {
+      o += `<path class="route-bg" d="${path}" style="stroke:${dayColor(d.id)};stroke-width:${w+3}"/>`;
+      o += `<path class="route" d="${path}" style="stroke:${dayColor(d.id)};stroke-width:${w}"/>`;
+    } else o += `<path class="route-bg" d="${path}" style="stroke:${dayColor(d.id)};stroke-width:${w};opacity:.18"/>`;
+  });
+
+  const locs = visibleLocs();
+  const dayObj = cur==='all' ? null : DAYS.find(d=>d.id===cur);
+  const placed = [];
+  const inView = ([x,y]) => x>-10 && x<W+10 && y>-10 && y<H+10;
+  const order = locs.slice().sort((a,b)=>{ const pr=k=>(k===activeLoc||k===hoverLoc)?0:PLACES[k].kind==='sight'?1:PLACES[k].kind==='hotel'?2:3; return pr(a)-pr(b); });
+  let pinsSvg = '', labelsSvg = '', edgeSvg = '';
+  order.forEach(k => {
+    const loc = PLACES[k]; const p = toScr(proj(loc)); const col = locDayColor(k);
+    const isAct = k===activeLoc, isHov = k===hoverLoc;
+    if (!inView(p)) { if (cur!=='all' || catF!=='all' || loc.kind==='sight' || loc.kind==='airport') edgeSvg += edgeMarker(k, p, col); return; }
+    const big = cur!=='all' || catF!=='all' || loc.kind==='hotel' || loc.kind==='airport' || isAct;
+    let inner, rr;
+    if (loc.kind==='hotel'){ rr=11; inner = `<rect x="${p[0]-rr}" y="${p[1]-rr}" width="${rr*2}" height="${rr*2}" rx="6" fill="var(--ink)" stroke="var(--mapbg)" stroke-width="2"/><text x="${p[0]}" y="${p[1]}" style="fill:var(--bg)">H</text>`; }
+    else if (loc.kind==='airport'){ rr=11; inner = `<circle cx="${p[0]}" cy="${p[1]}" r="${rr}" fill="var(--muted)" stroke="var(--mapbg)" stroke-width="2"/><text x="${p[0]}" y="${p[1]}" style="font-size:9px">✈︎</text>`; }
+    else if (dayObj && dayObj.numMap.has(k)){ rr=12; inner = `<circle cx="${p[0]}" cy="${p[1]}" r="${rr}" fill="${col}" stroke="var(--mapbg)" stroke-width="2.5"/><text x="${p[0]}" y="${p[1]}">${dayObj.numMap.get(k)}</text>`; }
+    else { rr = big?9:6.5; inner = `<circle cx="${p[0]}" cy="${p[1]}" r="${rr}" fill="${col}" stroke="var(--mapbg)" stroke-width="2"/>`; }
+    const pulse = (isAct||isHov) ? `<circle class="pulse" cx="${p[0]}" cy="${p[1]}" r="${rr+2}" fill="${col}"/>` : '';
+    pinsSvg += `<g class="pin" data-loc="${k}">${pulse}${inner}</g>`;
+    const showLabel = isAct || isHov || cur!=='all' || catF!=='all' || ['sight','hotel','airport'].includes(loc.kind);
+    if (!showLabel) return;
+    const txt = loc.short || loc.name; const tw = txt.length*6.6+6, th = 15;
+    const cands = [[p[0]+rr+5, p[1]+4,'start'],[p[0]-rr-5, p[1]+4,'end'],[p[0], p[1]-rr-7,'middle'],[p[0], p[1]+rr+15,'middle']];
+    for (const [x,y,anc] of cands){
+      const bx = anc==='start'?x:anc==='end'?x-tw:x-tw/2; const box=[bx-2,y-th+3,bx+tw+2,y+3];
+      const hit = placed.some(b=>!(box[2]<b[0]||box[0]>b[2]||box[3]<b[1]||box[1]>b[3])) || box[0]<4 || box[2]>W-4;
+      if (!hit || ((isAct || isHov) && anc==='middle')){ placed.push(box); labelsSvg += `<text class="plabel ${(cur==='all'&&catF==='all'&&loc.kind!=='sight'&&!isAct&&!isHov)?'dim':''}" x="${x}" y="${y}" text-anchor="${anc}">${esc(txt)}</text>`; break; }
+    }
+  });
+  let draftSvg = '';
+  if (draft && (picking || F('editOv').classList.contains('on'))) {
+    const dp = draft && (draft.newPlace || draft.extra || (draft.loc && PLACES[draft.loc]));
+    if (dp) { const [x,y] = toScr(proj(dp)); draftSvg = `<g class="draftpin"><path d="M${x} ${y}c-7-9-11-14-11-19a11 11 0 0 1 22 0c0 5-4 10-11 19z" fill="var(--red)" stroke="var(--mapbg)" stroke-width="2"/><circle cx="${x}" cy="${y-19}" r="4" fill="#fff"/></g>`; }
+  }
+  svg.innerHTML = o + pinsSvg + labelsSvg + edgeSvg + draftSvg;
+}
+function edgeMarker(k, p, col){
+  const m = 26; const cx=W/2, cy=H/2; const dx=p[0]-cx, dy=p[1]-cy;
+  const t = Math.min((W/2-m)/Math.abs(dx||1e-6), (H/2-m)/Math.abs(dy||1e-6));
+  const x = cx+dx*t, y = cy+dy*t; const ang = Math.atan2(dy,dx)*180/Math.PI;
+  const loc = PLACES[k]; const lp = proj(loc);
+  const km = Math.round(Math.hypot(lp[0]-view.cx, lp[1]-view.cy));
+  const label = `${loc.short||loc.name} · ${km} km`; const tw = label.length*6.3+30;
+  const topSafe = 96, rightSafe = (y < 200 ? 60 : 8);
+  const bx = Math.min(Math.max(x - tw/2, 8), W - tw - rightSafe), by = Math.min(Math.max(y - 12, topSafe), H - 76);
+  return `<g class="edge" data-loc="${k}" data-edge="1"><rect x="${bx}" y="${by}" width="${tw}" height="24" rx="12"/>
+    <g transform="translate(${bx+13} ${by+12}) rotate(${ang})"><path d="M-5 -4L4 0L-5 4z" fill="${col}"/></g>
+    <text x="${bx+24}" y="${by+12.5}">${esc(label)}</text></g>`;
+}
+function fitLocs(keys, animate=true){
+  const pts = keys.filter(k=>PLACES[k]).map(k=>proj(PLACES[k]));
+  if (!pts.length) return;
+  let [x0,y0]=pts[0],[x1,y1]=pts[0];
+  pts.forEach(([x,y])=>{x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y)});
+  const r = svg.getBoundingClientRect(); W=r.width; H=r.height;
+  const padX = 60, padTop = 86, padBot = 64;
+  const w = Math.max(x1-x0, 1.2), h = Math.max(y1-y0, 1.2);
+  let s = Math.min((W-padX*2)/w, (H-padTop-padBot)/h);
+  s = Math.max(1.2, Math.min(s, 140));
+  const target = {cx:(x0+x1)/2, cy:(y0+y1)/2 - (padTop-padBot)/2/s, s};
+  animate ? animateTo(target) : (view = target, drawMap());
+}
+function defaultFit(animate=true){
+  let keys = visibleLocs();
+  if (cur==='all') { const near = keys.filter(k => { const [x,y] = proj(PLACES[k]); return Math.hypot(x,y) < 25; }); if (near.length) keys = near; }
+  if (keys.length === 1 && PLACES.H1) keys = [keys[0], 'H1'];
+  if (!keys.length) keys = Object.keys(PLACES).filter(k => { const [x,y] = proj(PLACES[k]); return Math.hypot(x,y) < 25; });
+  fitLocs(keys, animate);
+}
+let anim = null;
+function animateTo(t){
+  cancelAnimationFrame(anim);
+  const f = {...view}; const t0 = performance.now(); const D = 650;
+  const ls0 = Math.log(f.s), ls1 = Math.log(t.s);
+  const step = now => { const k = Math.min(1,(now-t0)/D); const e = k<.5 ? 4*k*k*k : 1-Math.pow(-2*k+2,3)/2;
+    view = {cx:f.cx+(t.cx-f.cx)*e, cy:f.cy+(t.cy-f.cy)*e, s:Math.exp(ls0+(ls1-ls0)*e)}; drawMap(); if (k<1) anim = requestAnimationFrame(step); };
+  anim = requestAnimationFrame(step);
+}
+function zoomAt(f, mx=W/2, my=H/2){
+  const ns = Math.max(1, Math.min(view.s*f, 300));
+  const wx = view.cx + (mx-W/2)/view.s, wy = view.cy + (my-H/2)/view.s;
+  view = {cx: wx-(mx-W/2)/ns, cy: wy-(my-H/2)/ns, s: ns}; drawMap();
+}
+$('#zin').onclick = () => animateTo({...view, s:Math.min(view.s*1.6,300)});
+$('#zout').onclick = () => animateTo({...view, s:Math.max(view.s/1.6,1)});
+$('#zfit').onclick = () => defaultFit(true);
+svg.addEventListener('wheel', e => { e.preventDefault(); cancelAnimationFrame(anim); const r=svg.getBoundingClientRect(); zoomAt(Math.exp(-e.deltaY*0.0015), e.clientX-r.left, e.clientY-r.top); }, {passive:false});
+
+let mdrag = null; const pointers = new Map();
+svg.addEventListener('pointerdown', e => {
+  pointers.set(e.pointerId, [e.clientX, e.clientY]); cancelAnimationFrame(anim);
+  if (pointers.size === 1) mdrag = {x:e.clientX, y:e.clientY, cx:view.cx, cy:view.cy, moved:false};
+  else if (pointers.size === 2) { const [a,b]=[...pointers.values()]; mdrag = {pinch:Math.hypot(a[0]-b[0],a[1]-b[1]), s:view.s, moved:true}; }
+  svg.setPointerCapture(e.pointerId);
+});
+svg.addEventListener('pointermove', e => {
+  if (pointers.has(e.pointerId)) pointers.set(e.pointerId, [e.clientX, e.clientY]);
+  if (!mdrag) { hoverPin(e); return; }
+  if (mdrag.pinch) { if (pointers.size===2){ const [a,b]=[...pointers.values()]; const d=Math.hypot(a[0]-b[0],a[1]-b[1]); const r=svg.getBoundingClientRect(); zoomAt((mdrag.s*d/mdrag.pinch)/view.s, (a[0]+b[0])/2-r.left, (a[1]+b[1])/2-r.top); } return; }
+  const dx = e.clientX-mdrag.x, dy = e.clientY-mdrag.y;
+  if (Math.abs(dx)+Math.abs(dy) > 4) { mdrag.moved = true; svg.classList.add('dragging'); hideTip(); }
+  if (mdrag.moved) { view.cx = mdrag.cx - dx/view.s; view.cy = mdrag.cy - dy/view.s; drawMap(); }
+});
+const endMapDrag = e => {
+  pointers.delete(e.pointerId);
+  if (mdrag && !mdrag.moved && !mdrag.pinch) {
+    const g = document.elementFromPoint(e.clientX, e.clientY)?.closest?.('[data-loc]');
+    if (picking) { const r = svg.getBoundingClientRect(); pickAt(e.clientX - r.left, e.clientY - r.top, g && !g.dataset.edge ? g.dataset.loc : null); }
+    else if (g) clickLoc(g.dataset.loc, !!g.dataset.edge);
+  }
+  if (pointers.size === 0) { mdrag = null; svg.classList.remove('dragging'); }
+};
+svg.addEventListener('pointerup', endMapDrag);
+svg.addEventListener('pointercancel', endMapDrag);
+svg.addEventListener('pointerleave', () => { if (!mdrag) { hideTip(); if (hoverLoc){ hoverLoc=null; drawMap(); } } });
+function clickLoc(k, isEdge){
+  if (isEdge) { const p = proj(PLACES[k]); animateTo({cx:p[0], cy:p[1], s:Math.max(view.s, 30)}); return; }
+  const stops = daysInView().flatMap(d=>d.stops).filter(s=>s.loc===k);
+  const s = stops.find(x=>stopVisible(x) && x.num) || stops.find(stopVisible) || stops[0];
+  if (!s) return;
+  selectStop(s.id, false, false);
+  const el = document.getElementById('s-'+s.id); if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+}
+const tip = $('#tip');
+function hoverPin(e){
+  const g = e.target.closest && e.target.closest('.pin');
+  if (!g) { hideTip(); if (hoverLoc){ hoverLoc=null; drawMap(); } return; }
+  const k = g.dataset.loc; const loc = PLACES[k];
+  const hits = daysInView().flatMap(d=>d.stops.filter(s=>s.loc===k).map(s=>`${d.date}${s.t?' · '+s.t.split(' - ')[0]:''}`));
+  const img = (allStops().find(s=>s.loc===k&&s.img)||{}).img;
+  tip.innerHTML = `${img?`<img src="${esc(photoUrl(img))}" alt="" onerror="this.remove()">`:''}<b>${esc(loc.name)}</b><span class="zh">${esc(loc.zh)}</span><br><span style="opacity:.75">${hits.slice(0,4).join(' · ')}</span>`;
+  const r = $('#mapcard').getBoundingClientRect(); const p = toScr(proj(loc));
+  tip.style.left = Math.min(Math.max(p[0], 130), r.width-130) + 'px'; tip.style.top = p[1] + 'px';
+  tip.classList.add('on');
+  if (hoverLoc !== k) { hoverLoc = k; drawMap(); }
+}
+function hideTip(){ tip.classList.remove('on'); }
+function updateMapHead(){
+  const catTxt = catF==='sight' ? ' · chỉ điểm tham quan' : catF==='food' ? ' · chỉ chỗ ăn uống' : '';
+  if (cur==='all'){
+    $('#mapTitle').textContent = 'Toàn hành trình · 21 - 28/11' + catTxt;
+    $('#mapSub').textContent = 'Kéo để di chuyển, cuộn để phóng to. Chọn một ngày để xem lộ trình đánh số.';
+    $('#legend').innerHTML = DAYS.map(d=>`<span><i style="background:${dayColor(d.id)}"></i>${d.date}</span>`).join('') + `<span><i style="background:var(--ink);border-radius:3px"></i>Khách sạn</span>`;
+  } else {
+    const d = DAYS.find(x=>x.id===cur); const i = DAYS.indexOf(d);
+    $('#mapTitle').textContent = `Ngày ${i+1} · ${d.wd} ${d.date}` + catTxt;
+    $('#mapSub').textContent = d.numMap.size ? `${d.sub||d.title} · ${d.numMap.size} điểm, đi theo thứ tự số` : (d.id==='21' ? 'Hạ cánh sân bay Đại Hưng lúc 22:00, sáng hôm sau vào trung tâm' : 'Chưa có điểm nào được ghim');
+    $('#legend').innerHTML = `<span><i style="background:${dayColor(d.id)}"></i>Lộ trình trong ngày</span><span><i style="background:var(--ink);border-radius:3px"></i>Khách sạn</span><span>Mũi tên ở mép = điểm nằm ngoài khung</span>`;
+  }
+}
+
+/* ---------- OVERLAYS ---------- */
+const ov = $('#overlay');
+function openPhoto(k, cap){
+  $('#ovBody').innerHTML = `<div class="lb"><img src="${esc(photoUrl(k))}" alt="${esc(cap)}"><div class="cap"><span>${esc(cap)}</span><a href="${esc(photoPage(k))}" target="_blank" rel="noopener">Nguồn ảnh${PHOTOS[k]?' & tác giả: Wikimedia Commons':''}</a></div></div>`;
+  ov.classList.add('on');
+}
+function openDriver(zh, loc){
+  const z = String(zh).split(' ')[0];
+  $('#ovBody').innerHTML = `<div class="driver"><div class="ask zh">师傅您好，请带我去这里：</div><div class="big zh">${esc(z)}</div><div class="sub">${esc(loc.name||'')}${loc.q?' · '+esc(loc.q):''}</div><div class="actions" style="justify-content:center;margin-top:18px"><button class="btn" type="button" id="copyZh">Copy tên tiếng Trung</button></div></div>`;
+  ov.classList.add('on');
+  $('#copyZh').onclick = async (ev) => { const ok = await writeClip(z); ev.target.textContent = ok ? 'Đã copy' : z; };
+}
+function closeOv(){ ov.classList.remove('on'); }
+$('#xbtn').onclick = closeOv;
+ov.addEventListener('click', e => { if (e.target === ov) closeOv(); });
+
+/* ---------- THEME (giữ trong phiên) ---------- */
+(function(){
+  const modes = ['auto','light','dark']; const names = {auto:'Tự động',light:'Sáng',dark:'Tối'}; let m = 'auto';
+  $('#themeBtn').onclick = () => { m = modes[(modes.indexOf(m)+1)%3]; if (m==='auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme', m); $('#themeBtn').textContent = 'Giao diện: ' + names[m]; drawMap(); };
+})();
+
+/* ---------- FILTER SWITCH ---------- */
+function setDay(id, scroll){
+  cur = id; activeStop = null; activeLoc = null; hoverLoc = null;
+  renderChips(); renderSeg(); renderTimeline(); updateMapHead(); defaultFit(true);
+  const chip = document.querySelector(`.chip[data-day="${id}"]`); if (chip) chip.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'});
+  try { history.replaceState(null, '', id==='all' ? location.pathname + location.search : '#ngay-'+id); } catch(e){}
+  if (scroll) scrollToLayout();
+}
+function setCat(c){
+  catF = c; activeStop = null; activeLoc = null;
+  renderSeg(); renderTimeline(); updateMapHead(); defaultFit(true); scrollToLayout();
+}
+function scrollToLayout(){ const top = document.querySelector('.layout').getBoundingClientRect().top + scrollY - document.querySelector('.filterbar').offsetHeight + 2; scrollTo({top, behavior:'smooth'}); }
+
+/* ---------- INIT ---------- */
+(function init(){
+  $('#heroImg').style.backgroundImage = `url("${photoUrl('FC')}")`;
+  loadData(RAW_TEXT);
+  SAVED = snapshot();
+  const h = (location.hash||'').match(/ngay-(\d\d)/);
+  if (h && DAYS.some(d=>d.id===h[1])) cur = h[1];
+  else { const now = new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Shanghai'})); if (now.getFullYear()===2026 && now.getMonth()===10) { const d = String(now.getDate()); if (DAYS.some(x=>x.id===d)) cur = d; } }
+  setTools(); renderAll();
+  requestAnimationFrame(() => defaultFit(false));
+  let rt; new ResizeObserver(() => { clearTimeout(rt); rt = setTimeout(() => { if (!dnd) defaultFit(false); }, 120); }).observe(svg);
+})();
+</script>
+</body>
+</html>
